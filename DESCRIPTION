@@ -1,0 +1,52 @@
+Package: MetaNLP
+Type: Package
+Title: Natural Language Processing for Meta Analysis
+Version: 0.1.0
+Authors@R: c(
+        person("Nico", "Bruder", 
+                role = c("aut"), 
+                email = "bruder@imbi.uni-heidelberg.de"
+        ),
+        person("Samuel", "Zimmermann", 
+                role = c("aut"), 
+                email = "zimmermann@imbi.uni-heidelberg.de",
+                comment = c(ORCID = "0009-0000-4828-9294"),
+        ),
+        person("Johannes", "Vey", 
+                role = c("aut"), 
+                email = "vey@imbi.uni-heidelberg.de",
+                comment = c(ORCID = "0000-0002-2610-9667"),
+        ),
+        person("Maximilian", "Pilz", 
+                role = c("aut", "cre"), 
+                email = "maximilian.pilz@itwm.fraunhofer.de",
+                comment = c(ORCID = "0000-0002-9685-1613")
+        ),
+        person(given = "Institute of Medical Biometry - University of Heidelberg",
+               role = c("cph")
+        )
+    )
+Description: Given a CSV file with titles and abstracts, the package
+    creates a word count matrix that is lemmatized and stemmed and can directly
+    be used to train machine learning methods for automatic title-abstract 
+    screening in the preparation of a meta analysis.
+License: MIT + file LICENSE
+Suggests: 
+    knitr,
+    rmarkdown,
+    testthat (>= 3.0.0),
+    covr
+Imports:
+    glmnet,
+    tm,
+    methods,
+    utils
+VignetteBuilder: knitr
+Collate: 
+    MetaNLP.R
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.1
+BugReports: https://github.com/imbi-heidelberg/MetaNLP/issues
+URL: https://github.com/imbi-heidelberg/MetaNLP
+Config/testthat/edition: 3
