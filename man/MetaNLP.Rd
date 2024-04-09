@@ -4,12 +4,15 @@
 \name{MetaNLP}
 \alias{MetaNLP}
 \alias{MetaNLP-class}
-\title{Natrual Language Processing for Meta Analysis}
+\title{Natural Language Processing for Meta Analysis}
 \usage{
-MetaNLP(path)
+MetaNLP(path, min_appear = 2)
 }
 \arguments{
 \item{path}{path to the CSV file}
+
+\item{min_appear}{minimum number of appearances of a word to become a column
+of the word count matrix}
 }
 \value{
 an object of class \code{MetaNLP}
@@ -19,7 +22,7 @@ The \pkg{MetaNLP} package provides methods to quickly transform a
 CSV-file with titles and abstracts to an R data frame that can be
 used for automatic title-abstract screening using machine learning.
 
-A \code{MetaNLP} object is the base class of the \pkg{MetaNLP}.
+A \code{MetaNLP} object is the base class of the package \pkg{MetaNLP}.
 It is initialized by passing the path to a CSV file and constructs
 a data frame which column names are the words that occur in the titles
 and abstracts and which cells contain the word counts for each
@@ -28,6 +31,9 @@ paper.
 \details{
 An object of class \code{MetaNLP} contains a slot data_frame where
 the word count data frame is stored.
+The CSV file must have a column \code{ID} to identify each paper, a column
+\code{Title} with the belonging titles of the papers and a column
+\code{Abstract} which contains the abstracts.
 }
 \seealso{
 Useful links:
