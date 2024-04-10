@@ -21,10 +21,16 @@
 #' @rdname MetaNLP
 setClass("MetaNLP", representation(data_frame = "data.frame"))
 
-#' @param path path to the CSV file
-#' @param min_appear minimum number of appearances of a word to become a column
-#' of the word count matrix
-#' @return an object of class \code{MetaNLP}
+#' @param path Path to the CSV file
+#' @param bounds An integer vector of length 2. The first value specifies
+#' the minimum number of appearances of a word to become a column of the word
+#' count matrix, the second value specifies the maximum number.
+#' Defaults to \code{c(2, Inf)}.
+#' @param word_length An integer vector of length 2. The first value specifies
+#' the minimum number of characters of a word to become a column of the word
+#' count matrix, the second value specifies the maximum number.
+#' Defaults to \code{c(3, Inf)}.
+#' @return An object of class \code{MetaNLP}
 #'
 #' @details
 #' An object of class \code{MetaNLP} contains a slot data_frame where
@@ -38,7 +44,7 @@ setClass("MetaNLP", representation(data_frame = "data.frame"))
 #'
 #' @rdname MetaNLP
 #' @export
-MetaNLP <- function(path, min_appear = 2) {
+MetaNLP <- function(path, bounds = c(2, Inf), word_length = c(3, Inf)) {
 
   # load file
   file <- utils::read.csv(path, header = TRUE, sep = ";")
@@ -69,14 +75,14 @@ MetaNLP <- function(path, min_appear = 2) {
     # only use word stems
     tm::tm_map(tm::stemDocument) |>
     # create matrix
-    tm::TermDocumentMatrix(control = list(minWordLength = 1)) |>
+    tm::TermDocumentMatrix(control = list(wordLengths = word_length)) |>
     as.matrix() |>
-    t() -> temp
+    t() |>
+    as.data.frame() -> temp
   })
 
   # only choose word stems that appear at least a pre-specified number of times
-  temp[, colSums(temp) >= min_appear] |>
-    as.data.frame() -> temp
+  temp <- temp[, colSums(temp) >= bounds[1] & colSums(temp) <= bounds[2]]
 
   # order by column name
   index_vec <- order(names(temp))
@@ -84,8 +90,9 @@ MetaNLP <- function(path, min_appear = 2) {
     subset(select = index_vec) -> temp
 
   # allow for "maybe" as decision
-  decision <- ifelse(file$decision %in% c("include", "maybe"), "yes", "no")
+  decision <- ifelse(file$decision %in% c("include", "maybe", "yes"), "yes", "no")
 
+  # add columns containing the ids of the papers and the belonging decisions
   res <- cbind(id = file$id, decision, temp)
 
   return(new("MetaNLP", data_frame = res))

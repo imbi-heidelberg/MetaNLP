@@ -6,16 +6,23 @@
 \alias{MetaNLP-class}
 \title{Natural Language Processing for Meta Analysis}
 \usage{
-MetaNLP(path, min_appear = 2)
+MetaNLP(path, bounds = c(2, Inf), word_length = c(3, Inf))
 }
 \arguments{
-\item{path}{path to the CSV file}
+\item{path}{Path to the CSV file}
 
-\item{min_appear}{minimum number of appearances of a word to become a column
-of the word count matrix}
+\item{bounds}{An integer vector of length 2. The first value specifies
+the minimum number of appearances of a word to become a column of the word
+count matrix, the second value specifies the maximum number.
+Defaults to \code{c(2, Inf)}.}
+
+\item{word_length}{An integer vector of length 2. The first value specifies
+the minimum number of characters of a word to become a column of the word
+count matrix, the second value specifies the maximum number.
+Defaults to \code{c(3, Inf)}.}
 }
 \value{
-an object of class \code{MetaNLP}
+An object of class \code{MetaNLP}
 }
 \description{
 The \pkg{MetaNLP} package provides methods to quickly transform a
