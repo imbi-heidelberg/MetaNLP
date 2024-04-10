@@ -19,8 +19,7 @@
 #' paper.
 #'
 #' @rdname MetaNLP
-setClass("MetaNLP", representation(data_frame = "data.frame",
-                                   label = "character"))
+setClass("MetaNLP", representation(data_frame = "data.frame"))
 
 #' @param path path to the CSV file
 #' @param min_appear minimum number of appearances of a word to become a column
@@ -32,20 +31,29 @@ setClass("MetaNLP", representation(data_frame = "data.frame",
 #' the word count data frame is stored.
 #' The CSV file must have a column \code{ID} to identify each paper, a column
 #' \code{Title} with the belonging titles of the papers and a column
-#' \code{Abstract} which contains the abstracts.
+#' \code{Abstract} which contains the abstracts. Furthermore, to store the
+#' decision for each paper, a column \code{Decision} should exist, where the
+#' values are either "yes" and "no" or "include" and "exclude". The value "maybe"
+#' is handled as a "yes"/"include".
 #'
 #' @rdname MetaNLP
 #' @export
 MetaNLP <- function(path, min_appear = 2) {
-  # directly remove rows with na values
-  file = subset(y <- utils::read.csv(path, header = TRUE, sep = ";"),
-                !(is.na(y$Abstract) | is.na(y$Title)))
+
+  # load file
+  file <- utils::read.csv(path, header = TRUE, sep = ";")
+
+  # make column names lower case
+  names(file) <- tolower(names(file))
+
+  # only select rows without na values
+  file <-  subset(file, !(is.na(file$abstract) | is.na(file$title)))
 
   suppressWarnings({file |>
-    # select the columns "Abstract" and "Title"
-    _[c("Title", "Abstract")] |>
+    # select the columns "abstract" and "title"
+    _[c("title", "abstract")] |>
     # add new column x where Title and Abstract are pasted
-    within(x <- paste(Title, Abstract)) |>
+    within(x <- paste(title, abstract)) |>
     _$x |>
     # lower case
     tolower()|>
@@ -76,9 +84,9 @@ MetaNLP <- function(path, min_appear = 2) {
     subset(select = index_vec) -> temp
 
   # allow for "maybe" as decision
-  decision <- ifelse(file$Decision %in% c("include", "maybe"), "yes", "no")
+  decision <- ifelse(file$decision %in% c("include", "maybe"), "yes", "no")
 
-  res <- cbind(file$ID, decision, temp)
+  res <- cbind(id = file$id, decision, temp)
 
   return(new("MetaNLP", data_frame = res))
 }
