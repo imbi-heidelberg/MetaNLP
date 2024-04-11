@@ -39,6 +39,7 @@ Suggests:
 Imports:
     glmnet,
     tm,
+    textstem,
     methods,
     utils
 VignetteBuilder: knitr
