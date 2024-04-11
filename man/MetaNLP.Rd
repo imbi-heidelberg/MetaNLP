@@ -4,22 +4,32 @@
 \name{MetaNLP}
 \alias{MetaNLP}
 \alias{MetaNLP-class}
-\title{Natrual Language Processing for Meta Analysis}
+\title{Natural Language Processing for Meta Analysis}
 \usage{
-MetaNLP(path)
+MetaNLP(path, bounds = c(2, Inf), word_length = c(3, Inf))
 }
 \arguments{
-\item{path}{path to the CSV file}
+\item{path}{Path to the CSV file}
+
+\item{bounds}{An integer vector of length 2. The first value specifies
+the minimum number of appearances of a word to become a column of the word
+count matrix, the second value specifies the maximum number.
+Defaults to \code{c(2, Inf)}.}
+
+\item{word_length}{An integer vector of length 2. The first value specifies
+the minimum number of characters of a word to become a column of the word
+count matrix, the second value specifies the maximum number.
+Defaults to \code{c(3, Inf)}.}
 }
 \value{
-an object of class \code{MetaNLP}
+An object of class \code{MetaNLP}
 }
 \description{
 The \pkg{MetaNLP} package provides methods to quickly transform a
 CSV-file with titles and abstracts to an R data frame that can be
 used for automatic title-abstract screening using machine learning.
 
-A \code{MetaNLP} object is the base class of the \pkg{MetaNLP}.
+A \code{MetaNLP} object is the base class of the package \pkg{MetaNLP}.
 It is initialized by passing the path to a CSV file and constructs
 a data frame which column names are the words that occur in the titles
 and abstracts and which cells contain the word counts for each
@@ -28,6 +38,12 @@ paper.
 \details{
 An object of class \code{MetaNLP} contains a slot data_frame where
 the word count data frame is stored.
+The CSV file must have a column \code{ID} to identify each paper, a column
+\code{Title} with the belonging titles of the papers and a column
+\code{Abstract} which contains the abstracts. Furthermore, to store the
+decision for each paper, a column \code{Decision} should exist, where the
+values are either "yes" and "no" or "include" and "exclude". The value "maybe"
+is handled as a "yes"/"include".
 }
 \seealso{
 Useful links:

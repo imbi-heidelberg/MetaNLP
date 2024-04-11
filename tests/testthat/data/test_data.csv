@@ -1,4 +1,4 @@
-ID;decision;author;title;abstract
+ID;DECISION;author;title;Abstract
 1;exclude;John Doe 2019;A beautiful paper;Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas porttitor congue massa. Fusce posuere, magna sed pulvinar ultricies, purus lectus malesuada libero, sit amet commodo magna eros quis urna.
 2;exclude;John Doe and Jane Roe 2019;A very beautiful paper;Nunc viverra imperdiet enim. Fusce est. Vivamus a tellus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin pharetra nonummy pede. Mauris et orci.
 3;include;John Doe and Jane Roe 2020;An enormously interesting paper;Aenean nec lorem. In porttitor. Donec laoreet nonummy augue. Suspendisse dui purus, scelerisque at, vulputate vitae, pretium mattis, nunc. Mauris eget neque at sem venenatis eleifend. Ut nonummy.
