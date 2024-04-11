@@ -57,7 +57,7 @@ MetaNLP <- function(path, bounds = c(2, Inf), word_length = c(3, Inf)) {
 
   suppressWarnings({file |>
     # select the columns "abstract" and "title"
-    _[c("title", "abstract")] |>
+    (`[`)(c("title", "abstract")) |>
     # add new column x where Title and Abstract are pasted
     within(x <- paste(title, abstract)) |>
     _$x |>
