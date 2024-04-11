@@ -60,7 +60,7 @@ MetaNLP <- function(path, bounds = c(2, Inf), word_length = c(3, Inf)) {
     (`[`)(c("title", "abstract")) |>
     # add new column x where Title and Abstract are pasted
     within(x <- paste(title, abstract)) |>
-    _$x |>
+    (`[[`)(c("x")) |>
     # lower case
     tolower()|>
     # lemmatization of the words
