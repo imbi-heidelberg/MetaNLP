@@ -10,16 +10,19 @@ delete_words(object, delete_list)
 \S4method{delete_words}{MetaNLP,character}(object, delete_list)
 }
 \arguments{
-\item{object}{A MetaNLP-object, whose data frame is to be modified}
+\item{object}{A MetaNLP object, whose data frame is to be modified}
 
 \item{delete_list}{A character vector containing the words to be deleted}
 }
+\value{
+An object of class \code{MetaNLP}
+}
 \description{
-There can words that do not offer additional information
-in the classification process whether a paper should be included or excluded
+There can be words that do not offer additional information
+in the classification whether a paper should be included or excluded
 from a meta-analysis. Thus, such words should not be part of the word count
-matrix. This function allows the user to make a list of words which should
-not be part of the word count matrix.
+matrix. This function allows the user to remove these columns of the word
+count matrix by specifying a vector of words to delete.
 }
 \details{
 The words in \code{delete_list} can be given like they appear in the

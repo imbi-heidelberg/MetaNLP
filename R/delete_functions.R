@@ -1,10 +1,10 @@
 #' Delete list of words
 #'
-#' There can words that do not offer additional information
+#' There can be words that do not offer additional information
 #' in the classification whether a paper should be included or excluded
 #' from a meta-analysis. Thus, such words should not be part of the word count
-#' matrix. This function allows the user to make a list of words which should
-#' not be part of the word count matrix.
+#' matrix. This function allows the user to remove these columns of the word
+#' count matrix by specifying a vector of words to delete.
 #'
 #' @param object A MetaNLP object, whose data frame is to be modified
 #' @param delete_list A character vector containing the words to be deleted
@@ -60,11 +60,9 @@ setMethod("delete_words", signature("MetaNLP", "character"),
 #'
 #' @details
 #' This function allows to delete stop words from different languages. Supported
-#' languages are \code{catalan}, \code{danish}, \code{dutch}, \code{english},
-#' \code{finnish}, \code{french}, \code{german}, \code{hungarian}, \code{italian},
-#' \code{norwegian}, \code{portugese}, \code{romanian},
-#' \code{russian}, \code{spanish} and \code{swedish}. Language names are case
-#' sensitive.
+#' languages are \code{english}, \code{french}, \code{german}, \code{italian},
+#' \code{portugese}, \code{romanian}, \code{russian}, \code{spanish} and
+#' \code{swedish}. Language names are case sensitive.
 #'
 #'
 #' @export
