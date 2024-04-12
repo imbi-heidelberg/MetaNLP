@@ -30,7 +30,7 @@ text. They are lemmatized and stemmed by \code{delete_words} to match the
 columns of the word count matrix.
 }
 \examples{
-obj<- MetaNLP("data/test_data.csv")
+obj<- MetaNLP("tests/testthat/data/test_data.csv")
 del_words <- c("beautiful", "considering", "found")
 obj <- delete_words(obj, del_words)
 

@@ -23,7 +23,7 @@ setGeneric("delete_words", function(object, delete_list) {
 
 
 #' @examples
-#' obj<- MetaNLP("data/test_data.csv")
+#' obj<- MetaNLP("tests/testthat/data/test_data.csv")
 #' del_words <- c("beautiful", "considering", "found")
 #' obj <- delete_words(obj, del_words)
 #'
@@ -71,7 +71,7 @@ setGeneric("delete_stop_words", function(object, ...) {
 })
 
 #' @examples
-#' obj <- MetaNLP("data/test_data.csv")
+#' obj <- MetaNLP("tests/testthat/data/test_data.csv")
 #' obj <- delete_stop_words(obj, "english")
 #'
 #' @rdname delete_stop_words
