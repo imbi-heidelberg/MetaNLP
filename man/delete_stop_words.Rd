@@ -30,7 +30,9 @@ languages are \code{english}, \code{french}, \code{german}, \code{italian},
 \code{swedish}. Language names are case sensitive.
 }
 \examples{
-obj <- MetaNLP("tests/testthat/data/test_data.csv")
+\dontrun{
+obj <- MetaNLP("test_data.csv")
 obj <- delete_stop_words(obj, "english")
+}
 
 }

@@ -2,7 +2,8 @@ test_that("Deletion functions work", {
 
   # The first four words of the vector exist in (possibly modified) form in the
   # word count matrix of the test data
-  obj <- MetaNLP("data/test_data.csv")
+  source_path <- test_path("data", "test_data.csv")
+  obj <- MetaNLP(source_path)
   deletion_list <- c("beautiful", "considering", "facts", "find", "algebra")
   obj_delete <- delete_words(obj, deletion_list)
   obj_stop_words <- delete_stop_words(obj)
