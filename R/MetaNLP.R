@@ -36,15 +36,17 @@ setClass("MetaNLP", representation(data_frame = "data.frame"))
 #' An object of class \code{MetaNLP} contains a slot data_frame where
 #' the word count data frame is stored.
 #' The CSV file must have a column \code{ID} to identify each paper, a column
-#' \code{Title} with the belonging titles of the papers and a column
-#' \code{Abstract} which contains the abstracts. Furthermore, to store the
-#' decision for each paper, a column \code{Decision} should exist, where the
+#' \code{title} with the belonging titles of the papers and a column
+#' \code{abstract} which contains the abstracts. Furthermore, to store the
+#' decision for each paper, a column \code{decision} should exist, where the
 #' values are either "yes" and "no" or "include" and "exclude". The value "maybe"
 #' is handled as a "yes"/"include".
 #'
 #' @rdname MetaNLP
 #' @export
 MetaNLP <- function(path, bounds = c(2, Inf), word_length = c(3, Inf)) {
+  title <- NULL
+  abstract <- NULL
 
   # load file
   file <- utils::read.csv(path, header = TRUE, sep = ";")
@@ -62,7 +64,7 @@ MetaNLP <- function(path, bounds = c(2, Inf), word_length = c(3, Inf)) {
     within(x <- paste(title, abstract)) |>
     (`[[`)(c("x")) |>
     # lower case
-    tolower()|>
+    tolower() |>
     # lemmatization of the words
     textstem::lemmatize_strings() |>
     tm::VectorSource() |>
