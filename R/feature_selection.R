@@ -21,7 +21,6 @@
 #'
 #' @rdname select_features
 #' @export
-
 setGeneric("select_features", function(object, ...) {
   standardGeneric("select_features")
 })
@@ -45,11 +44,11 @@ setGeneric("select_features", function(object, ...) {
 #' error is minimized (option \code{"min"}) or the value, that gives
 #' the most regularized model such that the cross-validated error is within
 #' one standar error of the minimum (option \code{"1se"}).
-#' @param random A boolean indicating whether a local seed for this function
-#' should be set or not. Default is \code{TRUE}, so no seed is set.
-#' Setting the seed (meaning \code{random = FALSE}) leads to replicable results of
+#' @param seed A numeric value which is used as a local seed for this function.
+#' Default is \code{seed = NULL}, so no seed is set.
+#' Setting a seed leads to replicable results of
 #' the cross validation, such that each call of \code{select_features} selects
-#' the same columns. If \code{random = FALSE}, the option \code{lambda = "avg"}
+#' the same columns. If a seed is set, the option \code{lambda = "avg"}
 #' yields the same results as \code{lambda = "min"}.
 #' @param ... Additional arguments for \link[glmnet]{cv.glmnet}. An important
 #' option might be \code{type.measure} to specify which loss is used when
@@ -73,12 +72,12 @@ setGeneric("select_features", function(object, ...) {
 #' @rdname select_features
 #' @export
 setMethod("select_features", signature("MetaNLP"),
-          function(object, ..., alpha = 0.8, lambda = "avg", random = TRUE) {
+          function(object, ..., alpha = 0.8, lambda = "avg", seed = NULL) {
 
             # set seed (but only locally within this function)
-            if(!random) {
+            if(!is.null(seed)) {
               old <- .Random.seed
-              set.seed(42)
+              set.seed(seed)
               on.exit( {.Random.seed <<- old})
             }
 
@@ -106,7 +105,7 @@ setMethod("select_features", signature("MetaNLP"),
 
               # case 2: lambda = "avg"
               # average only makes sense if seed is not fix value
-              if(lambda == "avg" & random) {
+              if(lambda == "avg" & is.null(seed)) {
                 l_avg <- rep(0, 10)
                 for(i in 1:10) {
                   cvmodel <- glmnet::cv.glmnet(x, y,
@@ -115,11 +114,11 @@ setMethod("select_features", signature("MetaNLP"),
                   l_avg[i] <- cvmodel$lambda.min
                 }
 
-                lambda <- median(l_avg)
+                lambda <- stats::median(l_avg)
               }
               # if seed is fix value, lambda = "avg" is equal to lambda = "min"
-              else if(lambda == "avg" & !random) {
-                cvmodel <- cv.glmnet(x, y,
+              else if(lambda == "avg" & !is.null(seed)) {
+                cvmodel <- glmnet::cv.glmnet(x, y,
                                      family = "binomial",
                                      alpha = alpha, ...)
                 lambda <- cvmodel$lambda.min
@@ -127,9 +126,10 @@ setMethod("select_features", signature("MetaNLP"),
             }
 
             # get non-zero coefficients
-            res <- coef(model, s = lambda)
+            res <- stats::coef(model, s = lambda)
 
             # select columns with non-zero coefficients
-            object@data_frame <- object@data_frame[-c(1, 2)][res@i[-1]]
+            interim <- object@data_frame[-c(1, 2)][res@i[-1]]
+            object@data_frame <- cbind(object@data_frame[c(1, 2)], interim)
             object
           })

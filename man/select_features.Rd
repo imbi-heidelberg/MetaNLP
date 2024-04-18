@@ -7,7 +7,7 @@
 \usage{
 select_features(object, ...)
 
-\S4method{select_features}{MetaNLP}(object, ..., alpha = 0.8, lambda = "avg", random = TRUE)
+\S4method{select_features}{MetaNLP}(object, ..., alpha = 0.8, lambda = "avg", seed = NULL)
 }
 \arguments{
 \item{object}{An object of class \code{MetaNLP}}
@@ -35,11 +35,11 @@ error is minimized (option \code{"min"}) or the value, that gives
 the most regularized model such that the cross-validated error is within
 one standar error of the minimum (option \code{"1se"}).}
 
-\item{random}{A boolean indicating whether a local seed for this function
-should be set or not. Default is \code{TRUE}, so no seed is set.
-Setting the seed (meaning \code{random = FALSE}) leads to replicable results of
+\item{seed}{A numeric value which is used as a local seed for this function.
+Default is \code{seed = NULL}, so no seed is set.
+Setting a seed leads to replicable results of
 the cross validation, such that each call of \code{select_features} selects
-the same columns. If \code{random = FALSE}, the option \code{lambda = "avg"}
+the same columns. If a seed is set, the option \code{lambda = "avg"}
 yields the same results as \code{lambda = "min"}.}
 }
 \value{
