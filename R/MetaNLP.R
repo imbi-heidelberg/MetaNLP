@@ -51,7 +51,7 @@ MetaNLP <- function(path, bounds = c(2, Inf), word_length = c(3, Inf), ...) {
   abstract <- NULL
 
   # load file
-  file <- utils::read.csv2(path, header = TRUE)
+  file <- utils::read.csv2(path, header = TRUE, ...)
 
   # make column names lower case
   names(file) <- tolower(names(file))
