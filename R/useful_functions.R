@@ -141,5 +141,6 @@ setMethod("write_csv", signature("MetaNLP"),
 
             }
 
-            utils::write.csv2(data, file = path_to_save, ...)
+            utils::write.csv2(data, file = path_to_save, row.names = FALSE, ...)
           })
+
