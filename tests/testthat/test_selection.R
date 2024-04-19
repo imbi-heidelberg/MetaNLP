@@ -37,10 +37,11 @@ test_that("Feature selection works", {
 
   for(i in 1:10){
     sel_feat_temp <- select_features(obj, lambda = "min", seed = 42)
-    temp[i] <- all(colnames(sel_feat_temp@data_frame) == colnames(sel_feat_const@data_frame))
+    data <- sel_feat_temp@data_frame
+    temp[i] <- all(colnames(data) == colnames(sel_feat_const@data_frame)) & ncol(data) == 29
   }
   temp <- as.logical(temp)
-#
+
   expect_true(
     all(temp)
   )
