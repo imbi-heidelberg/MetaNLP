@@ -73,6 +73,5 @@ setMethod("summary", signature("MetaNLP"),
                                            "Relative" = rel_exclude)),
                  "Include" = noquote(rbind("Absolute" = include,
                                            "Relative" = rel_include)))
-
-
           })
+
