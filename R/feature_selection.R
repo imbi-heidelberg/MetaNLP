@@ -82,7 +82,7 @@ setMethod("select_features", signature("MetaNLP"),
             }
 
             # extract feature and response vector
-            y <- as.factor(object@data_frame$decision)
+            y <- as.factor(object@data_frame$decision_)
             x <- as.matrix(object@data_frame[-c(1, 2)])
 
             # fit model

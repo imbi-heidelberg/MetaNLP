@@ -11,18 +11,18 @@ test_that("constructor works", {
 
   # columns with id should be unchanged by min_appear and word_length
   expect_equal(
-    obj2@data_frame$id,
-    obj@data_frame$id
+    obj2@data_frame$id_,
+    obj@data_frame$id_
   )
 
   expect_equal(
-    obj2@data_frame$decision,
-    obj@data_frame$decision
+    obj2@data_frame$decision_,
+    obj@data_frame$decision_
   )
 
   # correct conversion from "include/exclude" to "yes/no"
   expect_equal(
-    obj@data_frame$decision,
+    obj@data_frame$decision_,
     c("no", "no", "yes", "yes")
   )
 

@@ -93,11 +93,16 @@ MetaNLP <- function(path, bounds = c(2, Inf), word_length = c(3, Inf), ...) {
   temp |>
     subset(select = index_vec) -> temp
 
-  # allow for "maybe" as decision
-  decision <- ifelse(file$decision %in% c("include", "maybe", "yes"), "yes", "no")
+  if(!is.null(file$decision)) {
+    # allow for "maybe" as decision
+    decision <- ifelse(file$decision %in% c("include", "maybe", "yes"), "yes", "no")
 
-  # add columns containing the ids of the papers and the belonging decisions
-  res <- cbind(id = file$id, decision, temp)
+    # add columns containing the ids of the papers and the belonging decisions
+    res <- cbind("id_" = file$id, "decision_" = decision, temp)
+  } else {
+    res <- cbind("id_" = file$id, temp)
+  }
+
 
   return(new("MetaNLP", data_frame = res))
 }
