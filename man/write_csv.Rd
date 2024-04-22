@@ -23,7 +23,7 @@ the whole path including the file name should be given as the \code{path}
 argument}
 }
 \description{
-This function can be used to save the word count matrix of an MetaNLP object
+This function can be used to save the word count matrix of a MetaNLP object
 as a csv-file.
 }
 \details{

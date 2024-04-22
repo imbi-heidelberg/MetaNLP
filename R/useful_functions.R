@@ -22,7 +22,7 @@
 #' @export
 setMethod("summary", signature("MetaNLP"),
           function(object, n = 5, stop_words = FALSE, ...) {
-            decision <- NULL
+            decision_ <- NULL
 
             # delete stop words
             if(!stop_words) {
@@ -40,7 +40,7 @@ setMethod("summary", signature("MetaNLP"),
 
             # get n most frequent words from "exclude"
             wcm |>
-              subset(decision == "no") |>
+              subset(decision_ == "no") |>
               (`[`)(-c(1, 2)) |>
               colSums() |>
               sort(decreasing = TRUE) |>
@@ -48,7 +48,7 @@ setMethod("summary", signature("MetaNLP"),
 
             # get n most frequent words from "include"
             wcm |>
-              subset(decision == "yes") |>
+              subset(decision_ == "yes") |>
               (`[`)(-c(1, 2)) |>
               colSums() |>
               sort(decreasing = TRUE) |>
@@ -56,8 +56,8 @@ setMethod("summary", signature("MetaNLP"),
 
             # relative frequency of words
             denom_total <- sum(colSums(wcm[-c(1, 2)]))
-            denom_ex <- sum(colSums(subset(wcm, decision == "no")[-c(1, 2)]))
-            denom_in <- sum(colSums(subset(wcm, decision == "yes")[-c(1, 2)]))
+            denom_ex <- sum(colSums(subset(wcm, decision_ == "no")[-c(1, 2)]))
+            denom_in <- sum(colSums(subset(wcm, decision_ == "yes")[-c(1, 2)]))
 
             rel_total <- paste(round(total / denom_total * 100,
                                digits = 2), "%")
@@ -143,4 +143,3 @@ setMethod("write_csv", signature("MetaNLP"),
 
             utils::write.csv2(data, file = path_to_save, row.names = FALSE, ...)
           })
-
