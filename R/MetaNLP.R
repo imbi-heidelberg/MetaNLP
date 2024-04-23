@@ -30,6 +30,10 @@ setClass("MetaNLP", representation(data_frame = "data.frame"))
 #' the minimum number of characters of a word to become a column of the word
 #' count matrix, the second value specifies the maximum number.
 #' Defaults to \code{c(3, Inf)}.
+#' @param language The language for lemmatization and stemming. Supported
+#' languages are \code{english}, \code{french}, \code{german}, \code{italian},
+#' \code{portugese}, \code{romanian}, \code{russian}, \code{spanish} and
+#' \code{swedish}.
 #' @param ... Additional arguments passed on to \code{read.csv2}.
 #' See \link[utils]{read.table}.
 #' @return An object of class \code{MetaNLP}
@@ -46,9 +50,23 @@ setClass("MetaNLP", representation(data_frame = "data.frame"))
 #'
 #' @rdname MetaNLP
 #' @export
-MetaNLP <- function(path, bounds = c(2, Inf), word_length = c(3, Inf), ...) {
+MetaNLP <- function(path,
+                    bounds      = c(2, Inf),
+                    word_length = c(3, Inf),
+                    language    = "english",
+                    ...) {
   title <- NULL
   abstract <- NULL
+
+  language <- match.arg(language, c("english", "french", "german", "italian",
+                                    "portuguese", "romanian", "russian",
+                                    "spanish", "swedish"), several.ok = FALSE)
+
+  if(language != "english"){
+    lexicon <- get0(language, envir = asNamespace("MetaNLP"))
+  } else {
+    lexicon <- lexicon::hash_lemmas
+  }
 
   # load file
   file <- utils::read.csv2(path, header = TRUE, ...)
@@ -68,7 +86,7 @@ MetaNLP <- function(path, bounds = c(2, Inf), word_length = c(3, Inf), ...) {
     # lower case
     tolower() |>
     # lemmatization of the words
-    textstem::lemmatize_strings() |>
+    textstem::lemmatize_strings(dictionary = lexicon) |>
     tm::VectorSource() |>
     # create corpus object
     tm::Corpus() |>
@@ -77,7 +95,7 @@ MetaNLP <- function(path, bounds = c(2, Inf), word_length = c(3, Inf), ...) {
     # strip white space
     tm::tm_map(tm::stripWhitespace) |>
     # only use word stems
-    tm::tm_map(tm::stemDocument) |>
+    tm::tm_map(tm::stemDocument, language = language) |>
     # create matrix
     tm::TermDocumentMatrix(control = list(wordLengths = word_length)) |>
     as.matrix() |>

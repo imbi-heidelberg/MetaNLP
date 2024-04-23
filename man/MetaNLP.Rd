@@ -6,7 +6,13 @@
 \alias{MetaNLP-class}
 \title{Natural Language Processing for Meta Analysis}
 \usage{
-MetaNLP(path, bounds = c(2, Inf), word_length = c(3, Inf), ...)
+MetaNLP(
+  path,
+  bounds = c(2, Inf),
+  word_length = c(3, Inf),
+  language = "english",
+  ...
+)
 }
 \arguments{
 \item{path}{Path to the CSV file}
@@ -20,6 +26,11 @@ Defaults to \code{c(2, Inf)}.}
 the minimum number of characters of a word to become a column of the word
 count matrix, the second value specifies the maximum number.
 Defaults to \code{c(3, Inf)}.}
+
+\item{language}{The language for lemmatization and stemming. Supported
+languages are \code{english}, \code{french}, \code{german}, \code{italian},
+\code{portugese}, \code{romanian}, \code{russian}, \code{spanish} and
+\code{swedish}.}
 
 \item{...}{Additional arguments passed on to \code{read.csv2}.
 See \link[utils]{read.table}.}
