@@ -26,7 +26,7 @@ matrix. This function allows the user to automatically delete stop words.
 \details{
 This function allows to delete stop words from different languages. Supported
 languages are \code{english}, \code{french}, \code{german}, \code{italian},
-\code{portugese}, \code{romanian}, \code{russian}, \code{spanish} and
+\code{portugese}, \code{russian}, \code{spanish} and
 \code{swedish}. Language names are case sensitive.
 }
 \examples{

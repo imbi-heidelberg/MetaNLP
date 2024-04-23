@@ -40,3 +40,25 @@ test_that("Deletion functions work", {
     !(any(tm::stopwords() %in% names(obj_stop_words@data_frame)))
   )
 })
+
+test_that("Special characters can be replaces", {
+
+  # load french data set
+  source_path_fr <- test_path("data", "french_data.csv")
+  obj_fr <- MetaNLP(source_path_fr, bounds = c(1, Inf), language = "french",
+                    stringsAsFactors=FALSE, fileEncoding = "latin1")
+
+  # add a column name that contains all possible special characters
+  obj_fr@data_frame <- data.frame(obj_fr@data_frame,
+                                  "äàáâãåăëèéêîïíöôóõüùúûßçñ" = c(0, 1))
+  obj_fr_rep <- replace_special_characters(obj_fr)
+
+  # check that all characters were replaced
+  expect_true(
+    all(unlist(strsplit(colnames(obj_fr_rep@data_frame[-c(1, 2)]), "")) %in% letters)
+  )
+
+  expect_true(
+    !is.null(obj_fr_rep@data_frame$aaaaaaaeeeeiiioooouuuusscn)
+  )
+})

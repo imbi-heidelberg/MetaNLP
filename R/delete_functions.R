@@ -63,7 +63,7 @@ setMethod("delete_words", signature("MetaNLP", "character"),
 #' @details
 #' This function allows to delete stop words from different languages. Supported
 #' languages are \code{english}, \code{french}, \code{german}, \code{italian},
-#' \code{portugese}, \code{romanian}, \code{russian}, \code{spanish} and
+#' \code{portugese}, \code{russian}, \code{spanish} and
 #' \code{swedish}. Language names are case sensitive.
 #'
 #'
@@ -89,5 +89,60 @@ setMethod("delete_stop_words", signature("MetaNLP"),
 
             # delete these words from word count matrix
             object@data_frame <- delete_words(object, delete_list)@data_frame
+            object
+          })
+
+
+
+#' Replace special characters in column names
+#'
+#' When using non-english languages, the column names of the word count matrix
+#' can contain special characters. These might lead to encoding problems, when
+#' this matrix is used to train a machine learning model. This functions
+#' automatically replaces all special characters by the nearest equivalent
+#' character, e.g. "é" would be replaced by "e".
+#'
+#' @param object An object of class MetaNLP.
+#' @return An object of class MetaNLP, where the column names do not have
+#' special characters anymore.
+#'
+#' @examples
+#' \dontrun{
+#' obj <- MetaNLP("test_data.csv", language = "french")
+#' obj <- replace_special_characters(obj)
+#' }
+#'
+#' @rdname replace_special_characters
+#' @export
+setGeneric("replace_special_characters", function(object) {
+  standardGeneric("replace_special_characters")
+})
+
+#' @rdname replace_special_characters
+#' @export
+setMethod("replace_special_characters", signature("MetaNLP"),
+          function(object) {
+
+            # get column names
+            names <- colnames(object@data_frame[-c(1, 2)])
+            data <- object@data_frame[-c(1, 2)]
+
+            # replace all special characters
+            names <- gsub("[\u00E4\u00E0\u00E1\u00E2\u00E3\u00E5\u0103]", "a", names)
+            names <- gsub("[\u00EB\u00E8\u00E9\u00EA]", "e", names)
+            names <- gsub("[\u00EE\u00EF\u00ED]", "i", names)
+            names <- gsub("[\u00F6\u00F4\u00F3\u00F5]", "o", names)
+            names <- gsub("[\u00FC\u00F9\u00FA\u00FB]", "u", names)
+            names <- gsub("\u00DF", "ss", names)
+            names <- gsub("\u00E7", "c", names)
+            names <- gsub("\u00F1", "n", names)
+
+            colnames(data) <- names
+
+            # add columns that could now have the same column names
+            data <- as.data.frame(t(rowsum(t(data), group = colnames(data))))
+
+            names <- c("id_", "decision_", colnames(data))
+            colnames(object@data_frame) <- names
             object
           })
