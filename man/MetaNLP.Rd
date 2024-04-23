@@ -29,10 +29,13 @@ Defaults to \code{c(3, Inf)}.}
 
 \item{language}{The language for lemmatization and stemming. Supported
 languages are \code{english}, \code{french}, \code{german}, \code{italian},
-\code{portugese}, \code{romanian}, \code{russian}, \code{spanish} and
-\code{swedish}.}
+\code{portugese}, \code{russian}, \code{spanish} and
+\code{swedish}. For non-english languages (except russian), please use
+\code{stringsAsFactors=FALSE, fileEncoding = "latin1"} as additional arguments
+in ellipsis argument.}
 
-\item{...}{Additional arguments passed on to \code{read.csv2}.
+\item{...}{Additional arguments passed on to \code{read.csv2}. Important when
+other languages are used to ensure correct encoding.
 See \link[utils]{read.table}.}
 }
 \value{
@@ -55,7 +58,7 @@ the word count data frame is stored.
 The CSV file must have a column \code{ID} to identify each paper, a column
 \code{title} with the belonging titles of the papers and a column
 \code{abstract} which contains the abstracts. Furthermore, to store the
-decision for each paper, a column \code{decision} should exist, where the
+decision for each paper, a column \code{decision} must exist, where the
 values are either "yes" and "no" or "include" and "exclude". The value "maybe"
 is handled as a "yes"/"include".
 }

@@ -41,6 +41,7 @@ Imports:
     tm,
     textstem,
     methods,
+    lexicon,
     utils
 VignetteBuilder: knitr
 Collate: 

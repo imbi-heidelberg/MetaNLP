@@ -32,9 +32,12 @@ setClass("MetaNLP", representation(data_frame = "data.frame"))
 #' Defaults to \code{c(3, Inf)}.
 #' @param language The language for lemmatization and stemming. Supported
 #' languages are \code{english}, \code{french}, \code{german}, \code{italian},
-#' \code{portugese}, \code{romanian}, \code{russian}, \code{spanish} and
-#' \code{swedish}.
-#' @param ... Additional arguments passed on to \code{read.csv2}.
+#' \code{portugese}, \code{russian}, \code{spanish} and
+#' \code{swedish}. For non-english languages (except russian), please use
+#' \code{stringsAsFactors=FALSE, fileEncoding = "latin1"} as additional arguments
+#' in ellipsis argument.
+#' @param ... Additional arguments passed on to \code{read.csv2}. Important when
+#' other languages are used to ensure correct encoding.
 #' See \link[utils]{read.table}.
 #' @return An object of class \code{MetaNLP}
 #'
@@ -44,7 +47,7 @@ setClass("MetaNLP", representation(data_frame = "data.frame"))
 #' The CSV file must have a column \code{ID} to identify each paper, a column
 #' \code{title} with the belonging titles of the papers and a column
 #' \code{abstract} which contains the abstracts. Furthermore, to store the
-#' decision for each paper, a column \code{decision} should exist, where the
+#' decision for each paper, a column \code{decision} must exist, where the
 #' values are either "yes" and "no" or "include" and "exclude". The value "maybe"
 #' is handled as a "yes"/"include".
 #'
@@ -59,7 +62,7 @@ MetaNLP <- function(path,
   abstract <- NULL
 
   language <- match.arg(language, c("english", "french", "german", "italian",
-                                    "portuguese", "romanian", "russian",
+                                    "portuguese", "russian",
                                     "spanish", "swedish"), several.ok = FALSE)
 
   if(language != "english"){
@@ -91,7 +94,7 @@ MetaNLP <- function(path,
     # create corpus object
     tm::Corpus() |>
     # remove special characters
-    tm::tm_map(tm::content_transformer(replaceSpecialChars)) |>
+    tm::tm_map(tm::content_transformer(replaceSpecialChars), language = language) |>
     # strip white space
     tm::tm_map(tm::stripWhitespace) |>
     # only use word stems
@@ -120,7 +123,6 @@ MetaNLP <- function(path,
   } else {
     res <- cbind("id_" = file$id, temp)
   }
-
 
   return(new("MetaNLP", data_frame = res))
 }
