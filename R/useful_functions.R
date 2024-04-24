@@ -143,3 +143,71 @@ setMethod("write_csv", signature("MetaNLP"),
 
             utils::write.csv2(data, file = path_to_save, row.names = FALSE, ...)
           })
+
+
+#' Read and adapt test data
+#'
+#' This function takes a MetaNLP object (the training data) and a path to the
+#' test data csv. The function creates the word count matrix from the test data
+#' and matches the columns of the given training MetaNLP object with the columns
+#' of the test word count matrix. This means that columns, which do appear
+#' in the test word count matrix but not in the training word count matrix are
+#' removed; columns that appear in the training word count matrix but not in the
+#' test word count matrix are added as a column consisting of zeros.
+#'
+#' @param object The MetaNLP object created from the training data.
+#' @param path Path to the test data csv
+#' @param ... Further arguments to \code{MetaNLP}
+#'
+#' @examples
+#' \dontrun{
+#' obj <- MetaNLP("test_data.csv")
+#' to_test_obj <- read_test_data(obj, "path/to_test.csv")
+#' }
+#'
+#' @rdname read_test_data
+#' @export
+setGeneric("read_test_data", function(object, ...) {
+  standardGeneric("read_test_data")
+})
+
+#' @rdname read_test_data
+#' @export
+setMethod("read_test_data", signature("MetaNLP"),
+          function(object, path, ...) {
+
+            # read test data
+            test_obj <- MetaNLP(path, ...)
+
+            # delete columns id and decision
+            test_data <- test_obj@data_frame[-1]
+            names_obj  <- colnames(object@data_frame[-c(1, 2)])
+            names_test <- colnames(test_data)
+
+            # get columns that are in test csv but not in training csv
+            excess_index <- names_test %in% names_obj
+            test_data <- test_data[, excess_index]
+
+            # get column names that are in train csv but not in test csv
+            miss_index <- !(names_obj %in% names_test)
+            miss_names <- names_obj[miss_index]
+
+            # add these columns as columns only consisting of zeros
+            zeros <- rep(0, length(miss_names) * nrow(test_data))
+            df <- data.frame(matrix(zeros, ncol = length(miss_names),
+                                    nrow = nrow(test_data)))
+
+            colnames(df) <- miss_names
+
+            test_data <- cbind(test_data, df)
+
+            # order by column name
+            index_vec <- order(names(test_data))
+            test_data |>
+              subset(select = index_vec) -> test_data
+
+            # readd the column id
+            test_data <- cbind("id_" = test_obj@data_frame$id_, test_data)
+            test_obj@data_frame <- test_data
+            test_obj
+          })
