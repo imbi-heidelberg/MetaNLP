@@ -19,6 +19,8 @@
 #' have a look at the
 #' \href{https://glmnet.stanford.edu/articles/glmnet.html#logistic-regression-family-binomial}{online documentation}.
 #'
+#' @importFrom glmnet glmnet
+#'
 #' @rdname select_features
 #' @export
 setGeneric("select_features", function(object, ...) {
@@ -82,7 +84,7 @@ setMethod("select_features", signature("MetaNLP"),
             }
 
             # extract feature and response vector
-            y <- as.factor(object@data_frame$decision)
+            y <- as.factor(object@data_frame$decision_)
             x <- as.matrix(object@data_frame[-c(1, 2)])
 
             # fit model

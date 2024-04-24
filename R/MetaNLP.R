@@ -30,6 +30,8 @@ setClass("MetaNLP", representation(data_frame = "data.frame"))
 #' the minimum number of characters of a word to become a column of the word
 #' count matrix, the second value specifies the maximum number.
 #' Defaults to \code{c(3, Inf)}.
+#' @param ... Additional arguments passed on to \code{read.csv2}.
+#' See \link[utils]{read.table}.
 #' @return An object of class \code{MetaNLP}
 #'
 #' @details
@@ -44,12 +46,12 @@ setClass("MetaNLP", representation(data_frame = "data.frame"))
 #'
 #' @rdname MetaNLP
 #' @export
-MetaNLP <- function(path, bounds = c(2, Inf), word_length = c(3, Inf)) {
+MetaNLP <- function(path, bounds = c(2, Inf), word_length = c(3, Inf), ...) {
   title <- NULL
   abstract <- NULL
 
   # load file
-  file <- utils::read.csv(path, header = TRUE, sep = ";")
+  file <- utils::read.csv2(path, header = TRUE, ...)
 
   # make column names lower case
   names(file) <- tolower(names(file))
@@ -91,11 +93,16 @@ MetaNLP <- function(path, bounds = c(2, Inf), word_length = c(3, Inf)) {
   temp |>
     subset(select = index_vec) -> temp
 
-  # allow for "maybe" as decision
-  decision <- ifelse(file$decision %in% c("include", "maybe", "yes"), "yes", "no")
+  if(!is.null(file$decision)) {
+    # allow for "maybe" as decision
+    decision <- ifelse(file$decision %in% c("include", "maybe", "yes"), "yes", "no")
 
-  # add columns containing the ids of the papers and the belonging decisions
-  res <- cbind(id = file$id, decision, temp)
+    # add columns containing the ids of the papers and the belonging decisions
+    res <- cbind("id_" = file$id, "decision_" = decision, temp)
+  } else {
+    res <- cbind("id_" = file$id, temp)
+  }
+
 
   return(new("MetaNLP", data_frame = res))
 }
