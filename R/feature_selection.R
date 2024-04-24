@@ -18,7 +18,6 @@
 #' For further documentation and background information on \code{\link{glmnet}},
 #' have a look at the
 #' \href{https://glmnet.stanford.edu/articles/glmnet.html#logistic-regression-family-binomial}{online documentation}.
-
 #' @importFrom glmnet glmnet
 #'
 #' @rdname select_features
