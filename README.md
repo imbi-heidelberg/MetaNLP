@@ -1,6 +1,6 @@
 <!-- badges: start -->
   [![R-CMD-check](https://github.com/imbi-heidelberg/MetaNLP/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/imbi-heidelberg/MetaNLP/actions/workflows/R-CMD-check.yaml)
-  [![Codecov test coverage](https://codecov.io/gh/imbi-heidelberg/MetaNLP/branch/master/graph/badge.svg)](https://app.codecov.io/gh/imbi-heidelberg/MetaNLP?branch=master)
+  [![Codecov test coverage](https://codecov.io/gh/imbi-heidelberg/MetaNLP/branch/main/graph/badge.svg)](https://app.codecov.io/gh/imbi-heidelberg/MetaNLP?branch=main)
   [![CRAN status](https://www.r-pkg.org/badges/version/MetaNLP)](https://cran.r-project.org/package=MetaNLP)
 <!-- badges: end -->
 
