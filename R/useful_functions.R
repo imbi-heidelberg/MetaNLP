@@ -95,7 +95,8 @@ setGeneric("write_csv", function(object, ...) {
 #' "train_wcm.csv" or "test_wcm.csv". If the user wants to use another file name,
 #' the whole path including the file name should be given as the \code{path}
 #' argument
-#' @param ... Additional arguments for \link[utils]{write.table}.
+#' @param ... Additional arguments for \link[utils]{write.table}, e.g. encoding
+#' as \code{UTF-8}.
 #'
 #' @details
 #' Overall, there are three options to specify the path. By

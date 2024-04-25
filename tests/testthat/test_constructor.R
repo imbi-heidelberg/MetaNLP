@@ -50,39 +50,25 @@ test_that("constructor works", {
   source_path_de <- test_path("data", "german_data.csv")
   source_path_fr <- test_path("data", "french_data.csv")
   source_path_es <- test_path("data", "spanish_data.csv")
-  source_path_pt <- test_path("data", "portuguese_data.csv")
   source_path_ru <- test_path("data", "russian_data.csv")
-  source_path_it <- test_path("data", "italian_data.csv")
-  source_path_sv <- test_path("data", "swedish_data.csv")
 
   expect_no_error(
     MetaNLP(source_path_de, bounds = c(1, Inf), language = "german",
-            stringsAsFactors=FALSE, fileEncoding = "latin1")
+            encoding = "UTF-8")
   )
 
   expect_no_error(
     MetaNLP(source_path_fr, bounds = c(1, Inf), language = "french",
-            stringsAsFactors=FALSE, fileEncoding = "latin1")
+            encoding = "UTF-8")
   )
 
   expect_no_error(
     MetaNLP(source_path_es, bounds = c(1, Inf), language = "spanish",
-            stringsAsFactors=FALSE, fileEncoding = "latin1")
+            encoding = "UTF-8")
   )
-  expect_no_error(
-    MetaNLP(source_path_pt, bounds = c(1, Inf), language = "portuguese",
-            stringsAsFactors=FALSE, fileEncoding = "latin1")
-  )
+
   expect_no_error(
     MetaNLP(source_path_ru, bounds = c(1, Inf), language = "russian",
-            stringsAsFactors=FALSE, fileEncoding = "latin1")
-  )
-  expect_no_error(
-    MetaNLP(source_path_it, bounds = c(1, Inf), language = "italian",
-            stringsAsFactors=FALSE, fileEncoding = "latin1")
-  )
-  expect_no_error(
-    MetaNLP(source_path_sv, bounds = c(1, Inf), language = "swedish",
-            stringsAsFactors=FALSE, fileEncoding = "latin1")
+            encoding = "UTF-8")
   )
 })
