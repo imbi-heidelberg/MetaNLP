@@ -45,4 +45,30 @@ test_that("constructor works", {
     obj@data_frame$paper,
     c(1, 1, 1, 3)
   )
+
+  # test language support: expect no error
+  source_path_de <- test_path("data", "german_data.csv")
+  source_path_fr <- test_path("data", "french_data.csv")
+  source_path_es <- test_path("data", "spanish_data.csv")
+  source_path_ru <- test_path("data", "russian_data.csv")
+
+  expect_no_error(
+    MetaNLP(source_path_de, bounds = c(1, Inf), language = "german",
+            encoding = "UTF-8")
+  )
+
+  expect_no_error(
+    MetaNLP(source_path_fr, bounds = c(1, Inf), language = "french",
+            encoding = "UTF-8")
+  )
+
+  expect_no_error(
+    MetaNLP(source_path_es, bounds = c(1, Inf), language = "spanish",
+            encoding = "UTF-8")
+  )
+
+  expect_no_error(
+    MetaNLP(source_path_ru, bounds = c(1, Inf), language = "russian",
+            encoding = "UTF-8")
+  )
 })

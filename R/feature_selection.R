@@ -20,6 +20,8 @@
 #' \href{https://glmnet.stanford.edu/articles/glmnet.html#logistic-regression-family-binomial}{online documentation}.
 #' @importFrom glmnet glmnet
 #'
+#' @importFrom glmnet glmnet
+#'
 #' @rdname select_features
 #' @export
 setGeneric("select_features", function(object, ...) {

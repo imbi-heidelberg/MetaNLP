@@ -12,7 +12,8 @@ write_csv(object, ...)
 \arguments{
 \item{object}{An object of class MetaNLP.}
 
-\item{...}{Additional arguments for \link[utils]{write.table}.}
+\item{...}{Additional arguments for \link[utils]{write.table}, e.g. encoding
+as \code{UTF-8}.}
 
 \item{path}{Path where to save the csv. If no path is set, the csv is saved
 in the current working directory}
