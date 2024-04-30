@@ -7,17 +7,17 @@
 \usage{
 read_test_data(object, ...)
 
-\S4method{read_test_data}{MetaNLP}(object, path, ...)
+\S4method{read_test_data}{MetaNLP}(object, file, ...)
 }
 \arguments{
 \item{object}{The MetaNLP object created from the training data.}
 
-\item{...}{Further arguments to \code{MetaNLP}}
+\item{...}{Further arguments to \code{MetaNLP}.}
 
-\item{path}{Path to the test data csv}
+\item{file}{Either the path to the test data csv or a data frame}
 }
 \description{
-This function takes a MetaNLP object (the training data) and a path to the
+This function takes a MetaNLP object (the training data) and the
 test data csv. The function creates the word count matrix from the test data
 and matches the columns of the given training MetaNLP object with the columns
 of the test word count matrix. This means that columns, which do appear

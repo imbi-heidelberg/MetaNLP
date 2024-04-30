@@ -21,7 +21,7 @@
 #' @rdname MetaNLP
 setClass("MetaNLP", representation(data_frame = "data.frame"))
 
-#' @param path Path to the CSV file
+#' @param file Either the path to the CSV file or data frame contain
 #' @param bounds An integer vector of length 2. The first value specifies
 #' the minimum number of appearances of a word to become a column of the word
 #' count matrix, the second value specifies the maximum number.
@@ -32,11 +32,10 @@ setClass("MetaNLP", representation(data_frame = "data.frame"))
 #' Defaults to \code{c(3, Inf)}.
 #' @param language The language for lemmatization and stemming. Supported
 #' languages are \code{english}, \code{french}, \code{german}, \code{russian} and
-#' \code{spanish}. For non-english languages, please use
-#' \code{encoding = "UTF-8"} as additional argument and make sure that the csv
+#' \code{spanish}. For non-english languages make sure that the csv
 #' which is processed has the correct encoding.
-#' @param ... Additional arguments passed on to \code{read.csv2}. Important when
-#' other languages are used to ensure correct encoding.
+#' @param ... Additional arguments passed on to \code{read.csv2}, e.g. when
+#' "," should be used as a separator or when the encoding should be changed.
 #' See \link[utils]{read.table}.
 #' @return An object of class \code{MetaNLP}
 #'
@@ -47,8 +46,8 @@ setClass("MetaNLP", representation(data_frame = "data.frame"))
 #' \code{title} with the belonging titles of the papers and a column
 #' \code{abstract} which contains the abstracts. Furthermore, to store the
 #' decision for each paper, a column \code{decision} must exist, where the
-#' values are either "yes" and "no" or "include" and "exclude". The value "maybe"
-#' is handled as a "yes"/"include".
+#' values are either "yes" and "no" or "include" and "exclude" or "maybe".
+#' The value "maybe" is handled as a "yes"/"include".
 #'
 #' @note
 #' To ensure correct processing of the data when there are special characters
@@ -61,7 +60,7 @@ setClass("MetaNLP", representation(data_frame = "data.frame"))
 #'
 #' @rdname MetaNLP
 #' @export
-MetaNLP <- function(path,
+MetaNLP <- function(file,
                     bounds      = c(2, Inf),
                     word_length = c(3, Inf),
                     language    = "english",
@@ -69,9 +68,10 @@ MetaNLP <- function(path,
   title <- NULL
   abstract <- NULL
 
+  # match language
   language <- match.arg(language, c("english", "french", "german",
                                     "russian", "spanish"), several.ok = FALSE)
-
+  # get lemmatization dictionaries in correct language
   if(language != "english"){
     lexicon <- get0(language, envir = asNamespace("MetaNLP"))
   } else {
@@ -79,15 +79,21 @@ MetaNLP <- function(path,
   }
 
   # load file
-  file <- utils::read.csv2(path, header = TRUE, ...)
+  if(is.character(file)) data <- utils::read.csv2(file, header = TRUE, ...)
+  else data <- as.data.frame(file)
 
   # make column names lower case
-  names(file) <- tolower(names(file))
+  names(data) <- tolower(names(data))
+
+  # check that all the necessary columns exist
+  if(any(c(is.null(data$id), is.null(data$title), is.null(data$abstract)))) {
+    stop("The columns 'id', 'title' and 'abstract' must exist!")
+  }
 
   # only select rows without na values
-  file <-  subset(file, !(is.na(file$abstract) | is.na(file$title)))
+  data <-  subset(data, !(is.na(data$abstract) | is.na(data$title)))
 
-  suppressWarnings({file |>
+  suppressWarnings({data |>
     # select the columns "abstract" and "title"
     (`[`)(c("title", "abstract")) |>
     # add new column x where Title and Abstract are pasted
@@ -121,15 +127,28 @@ MetaNLP <- function(path,
   temp |>
     subset(select = index_vec) -> temp
 
-  if(!is.null(file$decision)) {
+  if(!is.null(data$decision)) {
     # allow for "maybe" as decision
-    decision <- ifelse(file$decision %in% c("include", "maybe", "yes"), "yes", "no")
+    decision <- ifelse(data$decision %in% c("include", "maybe", "yes"),
+                       "include", "exclude")
 
     # add columns containing the ids of the papers and the belonging decisions
-    res <- cbind("id_" = file$id, "decision_" = decision, temp)
+    res <- cbind("id_" = data$id, "decision_" = decision, temp)
   } else {
-    res <- cbind("id_" = file$id, temp)
+    res <- cbind("id_" = data$id, temp)
   }
 
   return(new("MetaNLP", data_frame = res))
 }
+
+
+setMethod("print", signature("MetaNLP"),
+          function(x) {
+            sprintf("MetaNLP<nrow=%i,ncol=%i>",
+                    nrow(x@data_frame), ncol(x@data_frame))
+          })
+
+setMethod("show", signature("MetaNLP"),
+          function(object) {
+            cat(print(object))
+          })
