@@ -46,7 +46,14 @@ test_that("Feature selection works", {
     all(temp)
   )
 
-  # test 6: the optino "1se" leads to fewer columns than "min"
+  # test 6: is a seed is set, "lambda = avg" and "lambda = min" return the same results
+
+  sel_feat_const_avg <- select_features(obj, lambda = "avg", seed = 42)
+  expect_equal(
+    sel_feat_const@data_frame, sel_feat_const_avg@data_frame
+  )
+
+  # test 7: the option "1se" leads to fewer columns than "min"
   sel_feat_1se <- select_features(obj, lambda = "1se", seed = 42)
 
   expect_lt(

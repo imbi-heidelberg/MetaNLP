@@ -53,6 +53,17 @@ test_that("constructor works", {
     MetaNLP(csv), obj
   )
 
+  # data frame can be created when column decision does not exist
+  source_path <- test_path("data", "test_data_changed.csv")
+  obj_no_dec <- MetaNLP(source_path)
+
+  expect_true(
+    is.null(obj_no_dec@data_frame$decision_)
+  )
+  expect_true(
+    !is.null(obj@data_frame$decision_)
+  )
+
   # throw an error if one column is missing
   csv1 <- csv[-1]
   csv2 <- csv[-4]
