@@ -75,7 +75,7 @@ setGeneric("select_features", function(object, ...) {
 #' @rdname select_features
 #' @export
 setMethod("select_features", signature("MetaNLP"),
-          function(object, ..., alpha = 0.8, lambda = "avg", seed = NULL) {
+          function(object, alpha = 0.8, lambda = "avg", seed = NULL, ...) {
 
             # set seed (but only locally within this function)
             if(!is.null(seed)) {

@@ -40,7 +40,7 @@ setMethod("summary", signature("MetaNLP"),
 
             # get n most frequent words from "exclude"
             wcm |>
-              subset(decision_ == "no") |>
+              subset(decision_ == "exclude") |>
               (`[`)(-c(1, 2)) |>
               colSums() |>
               sort(decreasing = TRUE) |>
@@ -48,7 +48,7 @@ setMethod("summary", signature("MetaNLP"),
 
             # get n most frequent words from "include"
             wcm |>
-              subset(decision_ == "yes") |>
+              subset(decision_ == "include") |>
               (`[`)(-c(1, 2)) |>
               colSums() |>
               sort(decreasing = TRUE) |>
@@ -56,8 +56,8 @@ setMethod("summary", signature("MetaNLP"),
 
             # relative frequency of words
             denom_total <- sum(colSums(wcm[-c(1, 2)]))
-            denom_ex <- sum(colSums(subset(wcm, decision_ == "no")[-c(1, 2)]))
-            denom_in <- sum(colSums(subset(wcm, decision_ == "yes")[-c(1, 2)]))
+            denom_ex <- sum(colSums(subset(wcm, decision_ == "exclude")[-c(1, 2)]))
+            denom_in <- sum(colSums(subset(wcm, decision_ == "include")[-c(1, 2)]))
 
             rel_total <- paste(round(total / denom_total * 100,
                                digits = 2), "%")
@@ -148,7 +148,7 @@ setMethod("write_csv", signature("MetaNLP"),
 
 #' Read and adapt test data
 #'
-#' This function takes a MetaNLP object (the training data) and a path to the
+#' This function takes a MetaNLP object (the training data) and the
 #' test data csv. The function creates the word count matrix from the test data
 #' and matches the columns of the given training MetaNLP object with the columns
 #' of the test word count matrix. This means that columns, which do appear
@@ -157,8 +157,8 @@ setMethod("write_csv", signature("MetaNLP"),
 #' test word count matrix are added as a column consisting of zeros.
 #'
 #' @param object The MetaNLP object created from the training data.
-#' @param path Path to the test data csv
-#' @param ... Further arguments to \code{MetaNLP}
+#' @param file Either the path to the test data csv or a data frame
+#' @param ... Further arguments to \code{MetaNLP}.
 #'
 #' @examples
 #' \dontrun{
@@ -175,10 +175,10 @@ setGeneric("read_test_data", function(object, ...) {
 #' @rdname read_test_data
 #' @export
 setMethod("read_test_data", signature("MetaNLP"),
-          function(object, path, ...) {
+          function(object, file, ...) {
 
             # read test data
-            test_obj <- MetaNLP(path, ...)
+            test_obj <- MetaNLP(file, ...)
 
             # delete columns id and decision
             test_data <- test_obj@data_frame[-1]
@@ -207,7 +207,7 @@ setMethod("read_test_data", signature("MetaNLP"),
             test_data |>
               subset(select = index_vec) -> test_data
 
-            # readd the column id
+            # add the column id
             test_data <- cbind("id_" = test_obj@data_frame$id_, test_data)
             test_obj@data_frame <- test_data
             test_obj

@@ -1,7 +1,8 @@
 test_that("constructor works", {
-  obj <- MetaNLP("data/test_data.csv")
-  obj2 <- MetaNLP("data/test_data.csv", bounds = c(1, Inf))
-  obj3 <- MetaNLP("data/test_data.csv", bounds = c(3,6), word_length = c(4,8))
+  path <- test_path("data", "test_data.csv")
+  obj <- MetaNLP(path)
+  obj2 <- MetaNLP(path, bounds = c(1, Inf))
+  obj3 <- MetaNLP(path, bounds = c(3,6), word_length = c(4,8))
 
   # rows containing na values are dropped
   expect_equal(
@@ -20,10 +21,10 @@ test_that("constructor works", {
     obj@data_frame$decision_
   )
 
-  # correct conversion from "include/exclude" to "yes/no"
+  # correct conversion to "include/exclude"
   expect_equal(
     obj@data_frame$decision_,
-    c("no", "no", "yes", "yes")
+    c("exclude", "exclude", "include", "include")
   )
 
   # when we allow for words that appear at least once, the number of columns
@@ -44,6 +45,27 @@ test_that("constructor works", {
   expect_equal(
     obj@data_frame$paper,
     c(1, 1, 1, 3)
+  )
+
+  # data frame can be read directly
+  csv <- read.csv2(path, header = TRUE)
+  expect_equal(
+    MetaNLP(csv), obj
+  )
+
+  # throw an error if one column is missing
+  csv1 <- csv[-1]
+  csv2 <- csv[-4]
+  csv3 <- csv[-5]
+
+  expect_error(
+    MetaNLP(csv1)
+  )
+  expect_error(
+    MetaNLP(csv2)
+  )
+  expect_error(
+    MetaNLP(csv3)
   )
 
   # test language support: expect no error
@@ -70,5 +92,14 @@ test_that("constructor works", {
   expect_no_error(
     MetaNLP(source_path_ru, bounds = c(1, Inf), language = "russian",
             encoding = "UTF-8")
+  )
+
+  # test print method
+  expect_equal(
+    print(obj), "MetaNLP<nrow=4,ncol=54>"
+  )
+  expect_equal(
+    paste0(capture.output(show(obj)), collapse = "\n\r"),
+    "MetaNLP<nrow=4,ncol=54>"
   )
 })

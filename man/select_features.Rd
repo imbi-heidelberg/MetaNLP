@@ -7,7 +7,7 @@
 \usage{
 select_features(object, ...)
 
-\S4method{select_features}{MetaNLP}(object, ..., alpha = 0.8, lambda = "avg", seed = NULL)
+\S4method{select_features}{MetaNLP}(object, alpha = 0.8, lambda = "avg", seed = NULL, ...)
 }
 \arguments{
 \item{object}{An object of class \code{MetaNLP}}

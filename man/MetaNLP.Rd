@@ -7,7 +7,7 @@
 \title{Natural Language Processing for Meta Analysis}
 \usage{
 MetaNLP(
-  path,
+  file,
   bounds = c(2, Inf),
   word_length = c(3, Inf),
   language = "english",
@@ -15,7 +15,7 @@ MetaNLP(
 )
 }
 \arguments{
-\item{path}{Path to the CSV file}
+\item{file}{Either the path to the CSV file or data frame contain}
 
 \item{bounds}{An integer vector of length 2. The first value specifies
 the minimum number of appearances of a word to become a column of the word
@@ -29,12 +29,11 @@ Defaults to \code{c(3, Inf)}.}
 
 \item{language}{The language for lemmatization and stemming. Supported
 languages are \code{english}, \code{french}, \code{german}, \code{russian} and
-\code{spanish}. For non-english languages, please use
-\code{encoding = "UTF-8"} as additional argument and make sure that the csv
+\code{spanish}. For non-english languages make sure that the csv
 which is processed has the correct encoding.}
 
-\item{...}{Additional arguments passed on to \code{read.csv2}. Important when
-other languages are used to ensure correct encoding.
+\item{...}{Additional arguments passed on to \code{read.csv2}, e.g. when
+"," should be used as a separator or when the encoding should be changed.
 See \link[utils]{read.table}.}
 }
 \value{
@@ -58,8 +57,8 @@ The CSV file must have a column \code{ID} to identify each paper, a column
 \code{title} with the belonging titles of the papers and a column
 \code{abstract} which contains the abstracts. Furthermore, to store the
 decision for each paper, a column \code{decision} must exist, where the
-values are either "yes" and "no" or "include" and "exclude". The value "maybe"
-is handled as a "yes"/"include".
+values are either "yes" and "no" or "include" and "exclude" or "maybe".
+The value "maybe" is handled as a "yes"/"include".
 }
 \note{
 To ensure correct processing of the data when there are special characters
