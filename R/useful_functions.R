@@ -5,7 +5,7 @@
 #'
 #' @param object An object of class MetaNLP.
 #' @param n Number of most frequent words to be displayed.
-#' @param stop_words Boolean to decide wether stop words shall be included in
+#' @param stop_words Boolean to decide whether stop words shall be included in
 #' the summary. \code{stop_words = TRUE} means, that stop words are included.
 #' @param ... Additional parameters for \code{delete_stop_words} (e.g. language
 #' of the stop words).
@@ -157,7 +157,8 @@ setMethod("write_csv", signature("MetaNLP"),
 #' test word count matrix are added as a column consisting of zeros.
 #'
 #' @param object The MetaNLP object created from the training data.
-#' @param file Either the path to the test data csv or a data frame
+#' @param file Either the path to the test data csv, the data frame containing
+#' the papers or a MetaNLP object
 #' @param ... Further arguments to \code{MetaNLP}.
 #'
 #' @examples
@@ -178,7 +179,8 @@ setMethod("read_test_data", signature("MetaNLP"),
           function(object, file, ...) {
 
             # read test data
-            test_obj <- MetaNLP(file, ...)
+            if(is(file, "MetaNLP")) test_obj <- file
+            else test_obj <- MetaNLP(file, ...)
 
             # delete columns id and decision
             test_data <- test_obj@data_frame[-1]

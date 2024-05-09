@@ -152,3 +152,41 @@ setMethod("show", signature("MetaNLP"),
           function(object) {
             cat(print(object))
           })
+
+
+#' Create word cloud from MetaNLP-object
+#'
+#' This method creates a word cloud from a MetaNLP object. The word size
+#' indicates the frequency of the words.
+#'
+#' @param x A MetaNLP object to plot
+#' @param max.words Number of words in the word cloud
+#' @param colors Character vector with the colors in
+#' @param ... Additional parameters for \link[wordcloud]{wordcloud}
+#'
+#' @examples
+#' obj <- MetaNLP("test_data.csv")
+#' plot(obj)
+#'
+#' @rdname plot
+#'
+#' @export
+setMethod("plot", signature("MetaNLP"),
+          function(x, max.words = 70,
+                   colors = c("snow4", "darkgoldenrod1", "turquoise4", "tomato"),
+                   ...) {
+
+            # prepare data
+            data <- x@data_frame
+            data$id_ <- NULL
+            data$decision_ <- NULL
+
+            # create word cloud
+            words <- names(data)
+            freqs <- colSums(data)
+
+            wordcloud::wordcloud(words, freqs, max.words = max.words,
+                                random.order = F,
+                                color = colors, ...)
+
+          })

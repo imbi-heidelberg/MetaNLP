@@ -51,7 +51,10 @@ As the word count matrix quickly grows with an increasing number of abstracts,
 it can easily reach several thousand columns. Thus, it can be important to
 extract the columns that carry most of the information in the decision making
 process. This function uses a generalized linear model combined with
-elasticnet regularization to extract these features.
+elasticnet regularization to extract these features. In contrast to a usual
+regression model or a L2 penalty (ridge regression), elasticnet (and LASSO)
+sets some regression parameters to 0. Thus, the selected features are exactly
+the features with a non-zero entry.
 }
 \details{
 The computational aspects are executed by the \code{\link{glmnet}}

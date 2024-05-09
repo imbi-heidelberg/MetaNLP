@@ -11,7 +11,7 @@
 
 \item{n}{Number of most frequent words to be displayed.}
 
-\item{stop_words}{Boolean to decide wether stop words shall be included in
+\item{stop_words}{Boolean to decide whether stop words shall be included in
 the summary. \code{stop_words = TRUE} means, that stop words are included.}
 
 \item{...}{Additional parameters for \code{delete_stop_words} (e.g. language

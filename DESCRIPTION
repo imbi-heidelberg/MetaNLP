@@ -42,7 +42,8 @@ Imports:
     textstem,
     methods,
     lexicon,
-    utils
+    utils,
+    wordcloud
 VignetteBuilder: knitr
 Collate: 
     MetaNLP.R
