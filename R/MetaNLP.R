@@ -160,19 +160,18 @@ setMethod("show", signature("MetaNLP"),
 #' indicates the frequency of the words.
 #'
 #' @param x A MetaNLP object to plot
-#' @param max.words Number of words in the word cloud
+#' @param y not used
+#' @param max.words Maximum number of words in the word cloud
 #' @param colors Character vector with the colors in
 #' @param ... Additional parameters for \link[wordcloud]{wordcloud}
 #'
-#' @examples
+#' @examples \dontrun{
 #' obj <- MetaNLP("test_data.csv")
-#' plot(obj)
-#'
-#' @rdname plot
+#' plot(obj)}
 #'
 #' @export
-setMethod("plot", signature("MetaNLP"),
-          function(x, max.words = 70,
+setMethod("plot", signature("MetaNLP", y = "missing"),
+          function(x,  y = NULL, max.words = 70,
                    colors = c("snow4", "darkgoldenrod1", "turquoise4", "tomato"),
                    ...) {
 

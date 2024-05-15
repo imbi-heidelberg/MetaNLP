@@ -1,6 +1,7 @@
+path <- test_path("data", "test_data.csv")
+obj <- MetaNLP(path)
+
 test_that("constructor works", {
-  path <- test_path("data", "test_data.csv")
-  obj <- MetaNLP(path)
   obj2 <- MetaNLP(path, bounds = c(1, Inf))
   obj3 <- MetaNLP(path, bounds = c(3,6), word_length = c(4,8))
 
@@ -104,7 +105,9 @@ test_that("constructor works", {
     MetaNLP(source_path_ru, bounds = c(1, Inf), language = "russian",
             encoding = "UTF-8")
   )
+})
 
+test_that("print methods work", {
   # test print method
   expect_equal(
     print(obj), "MetaNLP<nrow=4,ncol=54>"
@@ -114,3 +117,17 @@ test_that("constructor works", {
     "MetaNLP<nrow=4,ncol=54>"
   )
 })
+
+test_that("plot method works", {
+  plt <- function() {
+    old <- .Random.seed
+    set.seed(42)
+    on.exit( {.Random.seed <<- old})
+    plot(obj)
+  }
+  vdiffr::expect_doppelganger(
+    "wordcloud",
+    plt()
+  )
+})
+

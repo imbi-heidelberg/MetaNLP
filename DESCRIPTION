@@ -35,7 +35,9 @@ Suggests:
     knitr,
     rmarkdown,
     testthat (>= 3.0.0),
-    covr
+    covr,
+    wordcloud,
+    vdiffr
 Imports:
     glmnet,
     tm,
@@ -43,7 +45,6 @@ Imports:
     methods,
     lexicon,
     utils,
-    wordcloud
 VignetteBuilder: knitr
 Collate: 
     MetaNLP.R
