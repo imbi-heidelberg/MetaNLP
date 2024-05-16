@@ -14,7 +14,8 @@ read_test_data(object, ...)
 
 \item{...}{Further arguments to \code{MetaNLP}.}
 
-\item{file}{Either the path to the test data csv or a data frame}
+\item{file}{Either the path to the test data csv, the data frame containing
+the papers or a MetaNLP object}
 }
 \description{
 This function takes a MetaNLP object (the training data) and the

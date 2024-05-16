@@ -35,14 +35,16 @@ Suggests:
     knitr,
     rmarkdown,
     testthat (>= 3.0.0),
-    covr
+    covr,
+    wordcloud,
+    vdiffr
 Imports:
     glmnet,
     tm,
     textstem,
     methods,
     lexicon,
-    utils
+    utils,
 VignetteBuilder: knitr
 Collate: 
     MetaNLP.R

@@ -4,7 +4,10 @@
 #' it can easily reach several thousand columns. Thus, it can be important to
 #' extract the columns that carry most of the information in the decision making
 #' process. This function uses a generalized linear model combined with
-#' elasticnet regularization to extract these features.
+#' elasticnet regularization to extract these features. In contrast to a usual
+#' regression model or a L2 penalty (ridge regression), elasticnet (and LASSO)
+#' sets some regression parameters to 0. Thus, the selected features are exactly
+#' the features with a non-zero entry.
 #'
 #'
 #' @return An object of class \code{MetaNLP}, where the columns were selected

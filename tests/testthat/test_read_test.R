@@ -42,4 +42,9 @@ test_that("Test data is processed correctly", {
   expect_equal(
     data_obj, data_test
   )
+
+  # test 6: read_test_data also takes MetaNLP object as second argument
+  expect_equal(
+    test_obj@data_frame, read_test_data(obj, MetaNLP(source_path2))@data_frame
+  )
 })
