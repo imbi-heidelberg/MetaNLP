@@ -49,6 +49,10 @@ setClass("MetaNLP", representation(data_frame = "data.frame"))
 #' values are either "yes" and "no" or "include" and "exclude" or "maybe".
 #' The value "maybe" is handled as a "yes"/"include".
 #'
+#' @examples
+#' \dontrun{
+#' obj <- MetaNLP("test_data.csv")}
+#'
 #' @note
 #' To ensure correct processing of the data when there are special characters
 #' (e.g. "é" or "ü"), make sure that the csv-file is correctly encoded
@@ -169,6 +173,7 @@ setMethod("show", signature("MetaNLP"),
 #' obj <- MetaNLP("test_data.csv")
 #' plot(obj)}
 #'
+#' @return nothing
 #' @export
 setMethod("plot", signature("MetaNLP", y = "missing"),
           function(x,  y = NULL, max.words = 70,

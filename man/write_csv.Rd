@@ -23,6 +23,9 @@ in the current working directory}
 the whole path including the file name should be given as the \code{path}
 argument}
 }
+\value{
+nothing
+}
 \description{
 This function can be used to save the word count matrix of a MetaNLP object
 as a csv-file.
@@ -43,6 +46,5 @@ obj2 <- delete_stop_words(obj)
 write_csv(obj2)
 write_csv(obj2, path = "foo.csv")
 }
-
 
 }

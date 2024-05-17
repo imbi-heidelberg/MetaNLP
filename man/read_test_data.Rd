@@ -17,6 +17,9 @@ read_test_data(object, ...)
 \item{file}{Either the path to the test data csv, the data frame containing
 the papers or a MetaNLP object}
 }
+\value{
+An object of class MetaNLP
+}
 \description{
 This function takes a MetaNLP object (the training data) and the
 test data csv. The function creates the word count matrix from the test data
