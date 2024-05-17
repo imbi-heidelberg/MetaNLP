@@ -190,7 +190,7 @@ setMethod("plot", signature("MetaNLP", y = "missing"),
             freqs <- colSums(data)
 
             wordcloud::wordcloud(words, freqs, max.words = max.words,
-                                random.order = F,
+                                random.order = FALSE,
                                 color = colors, ...)
 
           })
