@@ -23,6 +23,9 @@
 
 \item{...}{Additional parameters for \link[wordcloud]{wordcloud}}
 }
+\value{
+nothing
+}
 \description{
 This method creates a word cloud from a MetaNLP object. The word size
 indicates the frequency of the words.

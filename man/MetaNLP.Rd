@@ -69,6 +69,11 @@ Snowball. When german texts are stemmed, umlauts are replaced by their
 non-umlaut equivalent, so "ä" becomes "a" etc. This behaviour cannot be
 changed.
 }
+\examples{
+\dontrun{
+obj <- MetaNLP("test_data.csv")}
+
+}
 \seealso{
 Useful links:
 \itemize{

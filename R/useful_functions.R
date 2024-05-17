@@ -115,6 +115,7 @@ setGeneric("write_csv", function(object, ...) {
 #' write_csv(obj2, path = "foo.csv")
 #' }
 #'
+#' @return nothing
 #'
 #' @rdname write_csv
 #' @export
@@ -166,6 +167,8 @@ setMethod("write_csv", signature("MetaNLP"),
 #' obj <- MetaNLP("test_data.csv")
 #' to_test_obj <- read_test_data(obj, "path/to_test.csv")
 #' }
+#'
+#' @return An object of class MetaNLP
 #'
 #' @rdname read_test_data
 #' @export
