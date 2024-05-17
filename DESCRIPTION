@@ -1,7 +1,7 @@
 Package: MetaNLP
 Type: Package
 Title: Natural Language Processing for Meta Analysis
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: c(
         person("Nico", "Bruder", 
                 role = c("aut"), 

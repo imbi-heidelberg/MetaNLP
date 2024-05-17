@@ -1,3 +1,3 @@
-# MetaNLP 0.1.0
+# MetaNLP 0.1.1
 
 * Initial CRAN submission.
