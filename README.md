@@ -14,6 +14,12 @@ Create data frames that can be used for automated title-abstract screening.
 
 ## Installation
 
+Install the current CRAN release with:
+
+```r
+install.packages("MetaNLP")
+```
+
 Install the development version directly from [GitHub](https://github.com/) with:
 
 ```r
