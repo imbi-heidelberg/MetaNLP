@@ -45,7 +45,6 @@ Imports:
     methods,
     lexicon,
     utils
-VignetteBuilder: knitr
 Collate: 
     MetaNLP.R
     util.R
