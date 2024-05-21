@@ -24,9 +24,8 @@ automatically replaces all special characters by the nearest equivalent
 character, e.g. "é" would be replaced by "e".
 }
 \examples{
-\dontrun{
-obj <- MetaNLP("test_data.csv", language = "french")
+path <- system.file("extdata", "test_data.csv", package = "MetaNLP", mustWork = TRUE)
+obj <- MetaNLP(path, language = "french")
 obj <- replace_special_characters(obj)
-}
 
 }

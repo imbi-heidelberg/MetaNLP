@@ -63,9 +63,6 @@ elastic net parameter \eqn{\alpha} can be specified by the user. The
 parameter \eqn{\lambda}, which determines the weight of the penalty, can
 either be chosen via cross validation (using \link[glmnet]{cv.glmnet} or by
 giving a numeric value.
-For further documentation and background information on \code{\link{glmnet}},
-have a look at the
-\href{https://glmnet.stanford.edu/articles/glmnet.html#logistic-regression-family-binomial}{online documentation}.
 }
 \note{
 By using a fix value for \code{lambda}, the number of features which should
@@ -75,11 +72,11 @@ resulting data frame, the higher one chooses \code{alpha}, the less
 columns will be chosen.
 }
 \examples{
-\dontrun{
-obj <- MetaNLP("test_data.csv")
+path <- system.file("extdata", "test_data.csv", package = "MetaNLP", mustWork = TRUE)
+obj <- MetaNLP(path)
 
-obj <- select_features(obj, alpha = 0.7)
-obj <- select_features(obj, lambda = "1se", type.measure = "auc")
-}
+obj2 <- select_features(obj, alpha = 0.7)
+obj2 <- select_features(obj, lambda = "1se")
+
 
 }

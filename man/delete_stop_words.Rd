@@ -29,9 +29,8 @@ languages are \code{english}, \code{french}, \code{german}, \code{russian} and
 \code{spanish}. Language names are case sensitive.
 }
 \examples{
-\dontrun{
-obj <- MetaNLP("test_data.csv")
+path <- system.file("extdata", "test_data.csv", package = "MetaNLP", mustWork = TRUE)
+obj <- MetaNLP(path)
 obj <- delete_stop_words(obj, "english")
-}
 
 }

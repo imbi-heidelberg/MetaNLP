@@ -30,9 +30,10 @@ removed; columns that appear in the training word count matrix but not in the
 test word count matrix are added as a column consisting of zeros.
 }
 \examples{
-\dontrun{
-obj <- MetaNLP("test_data.csv")
-to_test_obj <- read_test_data(obj, "path/to_test.csv")
-}
+path_train <- system.file("extdata", "test_data.csv", package = "MetaNLP", mustWork = TRUE)
+path_test <- system.file("extdata", "test_data_changed.csv", package = "MetaNLP", mustWork = TRUE)
+obj_train <- MetaNLP(path_train)
+obj_test <- MetaNLP(path_test)
+to_test_obj <- read_test_data(obj_train, obj_test)
 
 }

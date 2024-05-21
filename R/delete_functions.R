@@ -23,11 +23,11 @@ setGeneric("delete_words", function(object, delete_list) {
 
 
 #' @examples
-#' \dontrun{
-#' obj<- MetaNLP("test_data.csv")
+#' path <- system.file("extdata", "test_data.csv", package = "MetaNLP", mustWork = TRUE)
+#' obj <- MetaNLP(path)
 #' del_words <- c("beautiful", "considering", "found")
 #' obj <- delete_words(obj, del_words)
-#' }
+#'
 #'
 #' @rdname delete_words
 #' @export
@@ -72,10 +72,9 @@ setGeneric("delete_stop_words", function(object, ...) {
 })
 
 #' @examples
-#' \dontrun{
-#' obj <- MetaNLP("test_data.csv")
+#' path <- system.file("extdata", "test_data.csv", package = "MetaNLP", mustWork = TRUE)
+#' obj <- MetaNLP(path)
 #' obj <- delete_stop_words(obj, "english")
-#' }
 #'
 #' @rdname delete_stop_words
 #' @export
@@ -106,10 +105,9 @@ setMethod("delete_stop_words", signature("MetaNLP"),
 #' special characters anymore.
 #'
 #' @examples
-#' \dontrun{
-#' obj <- MetaNLP("test_data.csv", language = "french")
+#' path <- system.file("extdata", "test_data.csv", package = "MetaNLP", mustWork = TRUE)
+#' obj <- MetaNLP(path, language = "french")
 #' obj <- replace_special_characters(obj)
-#' }
 #'
 #' @rdname replace_special_characters
 #' @export

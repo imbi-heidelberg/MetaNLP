@@ -31,8 +31,8 @@ This method creates a word cloud from a MetaNLP object. The word size
 indicates the frequency of the words.
 }
 \examples{
-\dontrun{
-obj <- MetaNLP("test_data.csv")
-plot(obj)}
+path <- system.file("extdata", "test_data.csv", package = "MetaNLP", mustWork = TRUE)
+obj <- MetaNLP(path)
+plt <- plot(obj)
 
 }

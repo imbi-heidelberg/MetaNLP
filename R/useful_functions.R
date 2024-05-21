@@ -13,10 +13,9 @@
 #' @return A list of most frequent words.
 #'
 #' @examples
-#' \dontrun{
-#' obj <- MetaNLP("test_data.csv")
+#' path <- system.file("extdata", "test_data.csv", package = "MetaNLP", mustWork = TRUE)
+#' obj <- MetaNLP(path)
 #' summary(obj, n = 8)
-#' }
 #'
 #' @rdname summary
 #' @export
@@ -89,8 +88,7 @@ setGeneric("write_csv", function(object, ...) {
 #' as a csv-file.
 #'
 #' @param object An object of class MetaNLP.
-#' @param path Path where to save the csv. If no path is set, the csv is saved
-#' in the current working directory
+#' @param path Path where to save the csv.
 #' @param type Specifies if the word count matrix should be saved as
 #' "train_wcm.csv" or "test_wcm.csv". If the user wants to use another file name,
 #' the whole path including the file name should be given as the \code{path}
@@ -99,28 +97,25 @@ setGeneric("write_csv", function(object, ...) {
 #' as \code{UTF-8}.
 #'
 #' @details
-#' Overall, there are three options to specify the path. By
-#' default, no path is set, so the csv is saved as "train_wcm.csv" or
-#' "test_wcm.csv" in the current working directory. If a path to a specific
-#' folder is given (but the path name does not end with ".csv"), the file is
-#' saved in this folder as "train_wcm.csv" or "test_wcm.csv".
+#' If a path to a specific folder is given (but the path name does not end with
+#' ".csv"), the file is saved in this folder as "train_wcm.csv" or "test_wcm.csv".
 #' By providing a path ending with ".csv", the user can override the default
 #' naming convention and the file is saved according to this path.
 #'
 #' @examples
-#' \dontrun{
-#' obj <- MetaNLP("test_data.csv")
+#' path <- system.file("extdata", "test_data.csv", package = "MetaNLP", mustWork = TRUE)
+#' obj <- MetaNLP(path)
 #' obj2 <- delete_stop_words(obj)
-#' write_csv(obj2)
-#' write_csv(obj2, path = "foo.csv")
-#' }
+#' write_path <- tempdir()
+#' write_csv(obj2, path = write_path)
+#' file.remove(file.path(write_path, "train_wcm.csv"))
 #'
 #' @return nothing
 #'
 #' @rdname write_csv
 #' @export
 setMethod("write_csv", signature("MetaNLP"),
-          function(object, path = "", type = c("train", "test"), ...) {
+          function(object, path, type = c("train", "test"), ...) {
             lastchar <- 0
 
             # extract data
@@ -134,13 +129,9 @@ setMethod("write_csv", signature("MetaNLP"),
             # create file path
             if(lastchar == ".csv") {
               path_to_save <- path
-            } else if(path == ""){
-              type <- match.arg(type)
-              path_to_save <- paste0(type, "_wcm.csv")
             } else {
               type <- match.arg(type)
               path_to_save <- file.path(path, paste0(type, "_wcm.csv"))
-
             }
 
             utils::write.csv2(data, file = path_to_save, row.names = FALSE, ...)
@@ -163,10 +154,11 @@ setMethod("write_csv", signature("MetaNLP"),
 #' @param ... Further arguments to \code{MetaNLP}.
 #'
 #' @examples
-#' \dontrun{
-#' obj <- MetaNLP("test_data.csv")
-#' to_test_obj <- read_test_data(obj, "path/to_test.csv")
-#' }
+#' path_train <- system.file("extdata", "test_data.csv", package = "MetaNLP", mustWork = TRUE)
+#' path_test <- system.file("extdata", "test_data_changed.csv", package = "MetaNLP", mustWork = TRUE)
+#' obj_train <- MetaNLP(path_train)
+#' obj_test <- MetaNLP(path_test)
+#' to_test_obj <- read_test_data(obj_train, obj_test)
 #'
 #' @return An object of class MetaNLP
 #'

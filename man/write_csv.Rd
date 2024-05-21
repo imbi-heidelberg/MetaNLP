@@ -7,7 +7,7 @@
 \usage{
 write_csv(object, ...)
 
-\S4method{write_csv}{MetaNLP}(object, path = "", type = c("train", "test"), ...)
+\S4method{write_csv}{MetaNLP}(object, path, type = c("train", "test"), ...)
 }
 \arguments{
 \item{object}{An object of class MetaNLP.}
@@ -15,8 +15,7 @@ write_csv(object, ...)
 \item{...}{Additional arguments for \link[utils]{write.table}, e.g. encoding
 as \code{UTF-8}.}
 
-\item{path}{Path where to save the csv. If no path is set, the csv is saved
-in the current working directory}
+\item{path}{Path where to save the csv.}
 
 \item{type}{Specifies if the word count matrix should be saved as
 "train_wcm.csv" or "test_wcm.csv". If the user wants to use another file name,
@@ -31,20 +30,17 @@ This function can be used to save the word count matrix of a MetaNLP object
 as a csv-file.
 }
 \details{
-Overall, there are three options to specify the path. By
-default, no path is set, so the csv is saved as "train_wcm.csv" or
-"test_wcm.csv" in the current working directory. If a path to a specific
-folder is given (but the path name does not end with ".csv"), the file is
-saved in this folder as "train_wcm.csv" or "test_wcm.csv".
+If a path to a specific folder is given (but the path name does not end with
+".csv"), the file is saved in this folder as "train_wcm.csv" or "test_wcm.csv".
 By providing a path ending with ".csv", the user can override the default
 naming convention and the file is saved according to this path.
 }
 \examples{
-\dontrun{
-obj <- MetaNLP("test_data.csv")
+path <- system.file("extdata", "test_data.csv", package = "MetaNLP", mustWork = TRUE)
+obj <- MetaNLP(path)
 obj2 <- delete_stop_words(obj)
-write_csv(obj2)
-write_csv(obj2, path = "foo.csv")
-}
+write_path <- tempdir()
+write_csv(obj2, path = write_path)
+file.remove(file.path(write_path, "train_wcm.csv"))
 
 }

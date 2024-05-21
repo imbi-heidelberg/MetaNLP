@@ -30,10 +30,10 @@ text. They are lemmatized and stemmed by \code{delete_words} to match the
 columns of the word count matrix.
 }
 \examples{
-\dontrun{
-obj<- MetaNLP("test_data.csv")
+path <- system.file("extdata", "test_data.csv", package = "MetaNLP", mustWork = TRUE)
+obj <- MetaNLP(path)
 del_words <- c("beautiful", "considering", "found")
 obj <- delete_words(obj, del_words)
-}
+
 
 }

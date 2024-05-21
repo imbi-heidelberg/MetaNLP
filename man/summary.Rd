@@ -25,9 +25,8 @@ Returns a quick overview over the \eqn{n} most frequent word stems structured
 into included and excluded papers.
 }
 \examples{
-\dontrun{
-obj <- MetaNLP("test_data.csv")
+path <- system.file("extdata", "test_data.csv", package = "MetaNLP", mustWork = TRUE)
+obj <- MetaNLP(path)
 summary(obj, n = 8)
-}
 
 }
