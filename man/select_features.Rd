@@ -74,9 +74,7 @@ columns will be chosen.
 \examples{
 path <- system.file("extdata", "test_data.csv", package = "MetaNLP", mustWork = TRUE)
 obj <- MetaNLP(path)
-
-obj2 <- select_features(obj, alpha = 0.7)
-obj2 <- select_features(obj, lambda = "1se")
+obj2 <- select_features(obj, alpha = 0.7, lambda = "min")
 
 
 }
