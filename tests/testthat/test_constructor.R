@@ -5,9 +5,14 @@ test_that("constructor works", {
   obj2 <- MetaNLP(path, bounds = c(1, Inf))
   obj3 <- MetaNLP(path, bounds = c(3,6), word_length = c(4,8))
 
-  # rows containing na values are dropped
+  # rows containing na values lead to warning
+  path_na <- test_path("data", "test_data_na.csv")
+  expect_warning(
+    obj_na <- MetaNLP(path_na)
+  )
+
   expect_equal(
-    nrow(obj@data_frame),
+    nrow(obj_na@data_frame),
     4
   )
 
@@ -119,6 +124,7 @@ test_that("print methods work", {
 })
 
 test_that("plot method works", {
+  # normal plot without stratification
   plt <- function() {
     old <- .Random.seed
     set.seed(42)
@@ -129,5 +135,46 @@ test_that("plot method works", {
     "wordcloud",
     plt()
   )
+
+  # filter by exclude
+  plt_exclude <- function() {
+    old <- .Random.seed
+    set.seed(42)
+    on.exit( {.Random.seed <<- old})
+    plot(obj, decision = "exclude")
+  }
+  vdiffr::expect_doppelganger(
+    "wordcloud_exclude",
+    plt_exclude()
+  )
+
+  # filter by include
+  plt_include <- function() {
+    old <- .Random.seed
+    set.seed(42)
+    on.exit( {.Random.seed <<- old})
+    plot(obj, decision = "include")
+  }
+  vdiffr::expect_doppelganger(
+    "wordcloud_include",
+    plt_include()
+  )
+
+  # if no decision column exists, plot should be like "no stratification"
+  obj_nodec <- obj
+  obj_nodec@data_frame$decision_ <- NULL
+  plt_nodec <- function() {
+    old <- .Random.seed
+    set.seed(42)
+    on.exit( {.Random.seed <<- old})
+    plot(obj_nodec, decision = "include")
+  }
+  expect_warning(
+    vdiffr::expect_doppelganger(
+    "wordcloud",
+    plt_nodec()
+  ))
+
+
 })
 

@@ -141,7 +141,7 @@ setMethod("write_csv", signature("MetaNLP"),
 #' Read and adapt test data
 #'
 #' This function takes a MetaNLP object (the training data) and the
-#' test data csv. The function creates the word count matrix from the test data
+#' test data. The function creates the word count matrix from the test data
 #' and matches the columns of the given training MetaNLP object with the columns
 #' of the test word count matrix. This means that columns, which do appear
 #' in the test word count matrix but not in the training word count matrix are

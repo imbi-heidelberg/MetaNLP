@@ -45,10 +45,12 @@ setClass("MetaNLP", representation(data_frame = "data.frame"))
 #' the word count data frame is stored.
 #' The CSV file must have a column \code{ID} to identify each paper, a column
 #' \code{title} with the belonging titles of the papers and a column
-#' \code{abstract} which contains the abstracts. Furthermore, to store the
-#' decision for each paper, a column \code{decision} must exist, where the
-#' values are either "yes" and "no" or "include" and "exclude" or "maybe".
-#' The value "maybe" is handled as a "yes"/"include".
+#' \code{abstract} which contains the abstracts. If the CSV stores training data,
+#' a column \code{decision} should exist, indicating whether an abstract
+#' is included in the meta analysis. This column does not need to exist, because
+#' there is no decision for test data yet. Allowed values in this column are
+#' either "yes" and "no" or "include" and "exclude" or "maybe". The value "maybe"
+#' is handled as a "yes"/"include".
 #'
 #' @examples
 #' path <- system.file("extdata", "test_data.csv", package = "MetaNLP", mustWork = TRUE)
@@ -94,8 +96,14 @@ MetaNLP <- function(file,
     stop("The columns 'id', 'title' and 'abstract' must exist!")
   }
 
-  # only select rows without na values
-  data <-  subset(data, !(is.na(data$abstract) | is.na(data$title)))
+  # only select rows without na values or empty string
+  n_exclude <- nrow(subset(data, ((is.na(data$abstract) | data$abstract == "") |
+                                (is.na(data$title) | data$title == ""))))
+  data <-  subset(data, !((is.na(data$abstract) | data$abstract == "") |
+                            (is.na(data$title) | data$title == "")))
+  if(n_exclude > 0) {
+    warning(paste(n_exclude, "row(s) was/were removed due to missing values!"))
+  }
 
   suppressWarnings({data |>
     # select the columns "abstract" and "title"
@@ -167,6 +175,7 @@ setMethod("show", signature("MetaNLP"),
 #' @param y not used
 #' @param max.words Maximum number of words in the word cloud
 #' @param colors Character vector with the colors in
+#' @param decision Stratify word cloud by decision. Default is no stratification.
 #' @param ... Additional parameters for \link[wordcloud]{wordcloud}
 #'
 #' @examples
@@ -179,10 +188,23 @@ setMethod("show", signature("MetaNLP"),
 setMethod("plot", signature("MetaNLP", y = "missing"),
           function(x,  y = NULL, max.words = 70,
                    colors = c("snow4", "darkgoldenrod1", "turquoise4", "tomato"),
+                   decision = c("total", "include", "exclude"),
                    ...) {
 
-            # prepare data
-            data <- x@data_frame
+            decision_ <- NULL
+            dec <- match.arg(decision)
+            # check whether decision column exists and filter data
+            if(dec != "total") {
+              if(is.null(x@data_frame$decision_)) {
+                warning("Column decision_ does not exist. Word cloud is created by using the whole word count matrix.")
+                data <- x@data_frame
+              }
+              else {
+                x@data_frame |>
+                subset(decision_ == dec) -> data
+              }
+            }
+            else data <- x@data_frame
             data$id_ <- NULL
             data$decision_ <- NULL
 

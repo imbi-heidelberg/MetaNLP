@@ -9,6 +9,7 @@
   y = NULL,
   max.words = 70,
   colors = c("snow4", "darkgoldenrod1", "turquoise4", "tomato"),
+  decision = c("total", "include", "exclude"),
   ...
 )
 }
@@ -20,6 +21,8 @@
 \item{max.words}{Maximum number of words in the word cloud}
 
 \item{colors}{Character vector with the colors in}
+
+\item{decision}{Stratify word cloud by decision. Default is no stratification.}
 
 \item{...}{Additional parameters for \link[wordcloud]{wordcloud}}
 }
