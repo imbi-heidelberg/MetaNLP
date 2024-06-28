@@ -56,10 +56,12 @@ An object of class \code{MetaNLP} contains a slot data_frame where
 the word count data frame is stored.
 The CSV file must have a column \code{ID} to identify each paper, a column
 \code{title} with the belonging titles of the papers and a column
-\code{abstract} which contains the abstracts. Furthermore, to store the
-decision for each paper, a column \code{decision} must exist, where the
-values are either "yes" and "no" or "include" and "exclude" or "maybe".
-The value "maybe" is handled as a "yes"/"include".
+\code{abstract} which contains the abstracts. If the CSV stores training data,
+a column \code{decision} should exist, indicating whether an abstract
+is included in the meta analysis. This column does not need to exist, because
+there is no decision for test data yet. Allowed values in this column are
+either "yes" and "no" or "include" and "exclude" or "maybe". The value "maybe"
+is handled as a "yes"/"include".
 }
 \note{
 To ensure correct processing of the data when there are special characters
