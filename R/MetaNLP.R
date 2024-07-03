@@ -113,8 +113,6 @@ MetaNLP <- function(file,
     (`[[`)(c("x")) |>
     # lower case
     tolower() |>
-    # lemmatization of the words
-    textstem::lemmatize_strings(dictionary = lexicon) |>
     tm::VectorSource() |>
     # create corpus object
     tm::Corpus() |>
@@ -122,6 +120,8 @@ MetaNLP <- function(file,
     tm::tm_map(tm::content_transformer(replaceSpecialChars), language = language) |>
     # strip white space
     tm::tm_map(tm::stripWhitespace) |>
+    # lemmatization of the words
+    tm::tm_map(textstem::lemmatize_strings, dictionary = lexicon) |>
     # only use word stems
     tm::tm_map(tm::stemDocument, language = language) |>
     # create matrix
@@ -133,7 +133,7 @@ MetaNLP <- function(file,
 
   # only choose word stems that appear at least a pre-specified number of times
   temp <- temp[, colSums(temp) >= bounds[1] & colSums(temp) <= bounds[2]]
-
+#
   # order by column name
   index_vec <- order(names(temp))
   temp |>

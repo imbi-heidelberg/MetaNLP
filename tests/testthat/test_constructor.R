@@ -110,6 +110,7 @@ test_that("constructor works", {
     MetaNLP(source_path_ru, bounds = c(1, Inf), language = "russian",
             encoding = "UTF-8")
   )
+
 })
 
 test_that("print methods work", {
