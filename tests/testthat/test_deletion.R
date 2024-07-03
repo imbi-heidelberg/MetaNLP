@@ -45,8 +45,7 @@ test_that("Special characters can be replaces", {
 
   # load french data set
   source_path_fr <- test_path("data", "french_data.csv")
-  obj_fr <- MetaNLP(source_path_fr, bounds = c(1, Inf), language = "french",
-                    stringsAsFactors=FALSE, fileEncoding = "latin1")
+  obj_fr <- MetaNLP(source_path_fr, bounds = c(1, Inf), language = "french")
 
   # add a column name that contains all possible special characters
   obj_fr@data_frame <- data.frame(obj_fr@data_frame,
