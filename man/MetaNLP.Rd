@@ -48,12 +48,12 @@ used for automatic title-abstract screening using machine learning.
 A \code{MetaNLP} object is the base class of the package \pkg{MetaNLP}.
 It is initialized by passing the path to a CSV file and constructs
 a data frame whose column names are the words that occur in the titles
-and abstracts and whose cells contain the word counts for each
+and abstracts and whose cells contain the word frequencies for each
 paper.
 }
 \details{
 An object of class \code{MetaNLP} contains a slot data_frame where
-the word count data frame is stored.
+the document-term matrix is stored as a data frame.
 The CSV file must have a column \code{ID} to identify each paper, a column
 \code{title} with the belonging titles of the papers and a column
 \code{abstract} which contains the abstracts. If the CSV stores training data,
@@ -89,7 +89,7 @@ Useful links:
 
 Authors:
 \itemize{
-  \item Nico Bruder \email{bruder@imbi.uni-heidelberg.de}
+  \item Nico Bruder \email{brudernico@gmail.com} (\href{https://orcid.org/0009-0004-9522-2075}{ORCID})
   \item Samuel Zimmermann \email{zimmermann@imbi.uni-heidelberg.de} (\href{https://orcid.org/0009-0000-4828-9294}{ORCID})
   \item Johannes Vey \email{vey@imbi.uni-heidelberg.de} (\href{https://orcid.org/0000-0002-2610-9667}{ORCID})
 }

@@ -17,7 +17,7 @@ An object of class MetaNLP, where the column names do not have
 special characters anymore.
 }
 \description{
-When using non-english languages, the column names of the word count matrix
+When using non-english languages, the column names of the document-term matrix
 can contain special characters. These might lead to encoding problems, when
 this matrix is used to train a machine learning model. This functions
 automatically replaces all special characters by the nearest equivalent

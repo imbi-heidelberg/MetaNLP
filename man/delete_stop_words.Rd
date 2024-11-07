@@ -20,7 +20,7 @@ An object of class \code{MetaNLP}.
 \description{
 Usually, stop words do not offer useful information in the classification
 whether a paper should be included or excluded
-from a meta-analysis. Thus, such words should not be part of the word count
+from a meta-analysis. Thus, such words should not be part of the document-term
 matrix. This function allows the user to automatically delete stop words.
 }
 \details{

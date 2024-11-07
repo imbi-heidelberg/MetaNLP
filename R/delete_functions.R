@@ -2,7 +2,7 @@
 #'
 #' There can be words that do not offer additional information
 #' in the classification whether a paper should be included or excluded
-#' from a meta-analysis. Thus, such words should not be part of the word count
+#' from a meta-analysis. Thus, such words should not be part of the document-term
 #' matrix. This function allows the user to remove these columns of the word
 #' count matrix by specifying a vector of words to delete.
 #'
@@ -13,7 +13,7 @@
 #' @details
 #' The words in \code{delete_list} can be given like they appear in the
 #' text. They are lemmatized and stemmed by \code{delete_words} to match the
-#' columns of the word count matrix.
+#' columns of the document-term matrix.
 #'
 #' @export
 setGeneric("delete_words", function(object, delete_list) {
@@ -53,7 +53,7 @@ setMethod("delete_words", signature("MetaNLP", "character"),
 #'
 #' Usually, stop words do not offer useful information in the classification
 #' whether a paper should be included or excluded
-#' from a meta-analysis. Thus, such words should not be part of the word count
+#' from a meta-analysis. Thus, such words should not be part of the document-term
 #' matrix. This function allows the user to automatically delete stop words.
 #'
 #' @param object A MetaNLP object, whose data frame is to be modified.
@@ -94,7 +94,7 @@ setMethod("delete_stop_words", signature("MetaNLP"),
 
 #' Replace special characters in column names
 #'
-#' When using non-english languages, the column names of the word count matrix
+#' When using non-english languages, the column names of the document-term matrix
 #' can contain special characters. These might lead to encoding problems, when
 #' this matrix is used to train a machine learning model. This functions
 #' automatically replaces all special characters by the nearest equivalent

@@ -82,14 +82,14 @@ setGeneric("write_csv", function(object, ...) {
 })
 
 
-#' Save the word count matrix
+#' Save the document-term matrix
 #'
-#' This function can be used to save the word count matrix of a MetaNLP object
+#' This function can be used to save the document-term matrix of a MetaNLP object
 #' as a csv-file.
 #'
 #' @param object An object of class MetaNLP.
 #' @param path Path where to save the csv.
-#' @param type Specifies if the word count matrix should be saved as
+#' @param type Specifies if the document-term matrix should be saved as
 #' "train_wcm.csv" or "test_wcm.csv". If the user wants to use another file name,
 #' the whole path including the file name should be given as the \code{path}
 #' argument
@@ -141,12 +141,12 @@ setMethod("write_csv", signature("MetaNLP"),
 #' Read and adapt test data
 #'
 #' This function takes a MetaNLP object (the training data) and the
-#' test data. The function creates the word count matrix from the test data
+#' test data. The function creates the document-term matrix from the test data
 #' and matches the columns of the given training MetaNLP object with the columns
-#' of the test word count matrix. This means that columns, which do appear
-#' in the test word count matrix but not in the training word count matrix are
-#' removed; columns that appear in the training word count matrix but not in the
-#' test word count matrix are added as a column consisting of zeros.
+#' of the test document-term matrix. This means that columns, which do appear
+#' in the test document-term matrix but not in the training document-term matrix are
+#' removed; columns that appear in the training document-term matrix but not in the
+#' test document-term matrix are added as a column consisting of zeros.
 #'
 #' @param object The MetaNLP object created from the training data.
 #' @param file Either the path to the test data csv, the data frame containing

@@ -10,12 +10,12 @@
 "_PACKAGE"
 
 
-#' Create a data frame with word counts
+#' Create a data frame with document-term matrix
 #'
 #' A \code{MetaNLP} object is the base class of the package \pkg{MetaNLP}.
 #' It is initialized by passing the path to a CSV file and constructs
 #' a data frame whose column names are the words that occur in the titles
-#' and abstracts and whose cells contain the word counts for each
+#' and abstracts and whose cells contain the word frequencies for each
 #' paper.
 #'
 #' @rdname MetaNLP
@@ -42,7 +42,7 @@ setClass("MetaNLP", representation(data_frame = "data.frame"))
 #'
 #' @details
 #' An object of class \code{MetaNLP} contains a slot data_frame where
-#' the word count data frame is stored.
+#' the document-term matrix is stored as a data frame.
 #' The CSV file must have a column \code{ID} to identify each paper, a column
 #' \code{title} with the belonging titles of the papers and a column
 #' \code{abstract} which contains the abstracts. If the CSV stores training data,
@@ -196,7 +196,7 @@ setMethod("plot", signature("MetaNLP", y = "missing"),
             # check whether decision column exists and filter data
             if(dec != "total") {
               if(is.null(x@data_frame$decision_)) {
-                warning("Column decision_ does not exist. Word cloud is created by using the whole word count matrix.")
+                warning("Column decision_ does not exist. Word cloud is created by using the whole document-term matrix.")
                 data <- x@data_frame
               }
               else {
