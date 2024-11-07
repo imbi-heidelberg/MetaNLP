@@ -3,7 +3,7 @@
 \name{write_csv}
 \alias{write_csv}
 \alias{write_csv,MetaNLP-method}
-\title{Save the word count matrix}
+\title{Save the document-term matrix}
 \usage{
 write_csv(object, ...)
 
@@ -17,7 +17,7 @@ as \code{UTF-8}.}
 
 \item{path}{Path where to save the csv.}
 
-\item{type}{Specifies if the word count matrix should be saved as
+\item{type}{Specifies if the document-term matrix should be saved as
 "train_wcm.csv" or "test_wcm.csv". If the user wants to use another file name,
 the whole path including the file name should be given as the \code{path}
 argument}
@@ -26,7 +26,7 @@ argument}
 nothing
 }
 \description{
-This function can be used to save the word count matrix of a MetaNLP object
+This function can be used to save the document-term matrix of a MetaNLP object
 as a csv-file.
 }
 \details{

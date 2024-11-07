@@ -20,14 +20,14 @@ An object of class \code{MetaNLP}
 \description{
 There can be words that do not offer additional information
 in the classification whether a paper should be included or excluded
-from a meta-analysis. Thus, such words should not be part of the word count
+from a meta-analysis. Thus, such words should not be part of the document-term
 matrix. This function allows the user to remove these columns of the word
 count matrix by specifying a vector of words to delete.
 }
 \details{
 The words in \code{delete_list} can be given like they appear in the
 text. They are lemmatized and stemmed by \code{delete_words} to match the
-columns of the word count matrix.
+columns of the document-term matrix.
 }
 \examples{
 path <- system.file("extdata", "test_data.csv", package = "MetaNLP", mustWork = TRUE)

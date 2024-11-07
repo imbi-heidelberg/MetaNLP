@@ -1,6 +1,6 @@
 #' Select features via elasticnet regularization
 #'
-#' As the word count matrix quickly grows with an increasing number of abstracts,
+#' As the document-term matrix quickly grows with an increasing number of abstracts,
 #' it can easily reach several thousand columns. Thus, it can be important to
 #' extract the columns that carry most of the information in the decision making
 #' process. This function uses a generalized linear model combined with
