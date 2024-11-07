@@ -1,7 +1,7 @@
 Package: MetaNLP
 Type: Package
 Title: Natural Language Processing for Meta Analysis
-Version: 0.1.2.9000
+Version: 0.1.3
 Authors@R: c(person("Nico", "Bruder", role = c("aut"), email = "brudernico@gmail.com", comment = c(ORCID = "0009-0004-9522-2075")),
         person("Samuel", "Zimmermann", role = c("aut"), email = "zimmermann@imbi.uni-heidelberg.de", comment = c(ORCID = "0009-0000-4828-9294")),
         person("Johannes", "Vey", role = c("aut"), email = "vey@imbi.uni-heidelberg.de", comment = c(ORCID = "0000-0002-2610-9667")),
