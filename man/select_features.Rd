@@ -57,7 +57,7 @@ sets some regression parameters to 0. Thus, the selected features are exactly
 the features with a non-zero entry.
 }
 \details{
-The computational aspects are executed by the \code{\link{glmnet}}
+The computational aspects are executed by the \code{glmnet}
 package. At first, a model is fitted via \link[glmnet]{glmnet}. The
 elastic net parameter \eqn{\alpha} can be specified by the user. The
 parameter \eqn{\lambda}, which determines the weight of the penalty, can

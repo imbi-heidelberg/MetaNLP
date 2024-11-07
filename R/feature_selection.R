@@ -12,7 +12,7 @@
 #'
 #' @return An object of class \code{MetaNLP}, where the columns were selected
 #' via elastic net.
-#' @details The computational aspects are executed by the \code{\link{glmnet}}
+#' @details The computational aspects are executed by the \code{glmnet}
 #' package. At first, a model is fitted via \link[glmnet]{glmnet}. The
 #' elastic net parameter \eqn{\alpha} can be specified by the user. The
 #' parameter \eqn{\lambda}, which determines the weight of the penalty, can
