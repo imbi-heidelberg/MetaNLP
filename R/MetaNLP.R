@@ -96,6 +96,10 @@ MetaNLP <- function(file,
     stop("The columns 'id', 'title' and 'abstract' must exist!")
   }
 
+  # ensure UTF-8 encoding and replace all non-convertable bytes by an empty space
+  data$title <- iconv(data$title, to = "UTF-8", sub = " ")
+  data$abstract <- iconv(data$abstract, to = "UTF-8", sub = " ")
+
   # only select rows without na values or empty string
   n_exclude <- nrow(subset(data, ((is.na(data$abstract) | data$abstract == "") |
                                 (is.na(data$title) | data$title == ""))))
@@ -133,15 +137,18 @@ MetaNLP <- function(file,
 
   # only choose word stems that appear at least a pre-specified number of times
   temp <- temp[, colSums(temp) >= bounds[1] & colSums(temp) <= bounds[2]]
-#
+
   # order by column name
   index_vec <- order(names(temp))
   temp |>
     subset(select = index_vec) -> temp
 
   if(!is.null(data$decision)) {
-    # allow for "maybe" as decision
-    decision <- ifelse(data$decision %in% c("include", "maybe", "yes"),
+    # use grepl to ensure that words like "included" or "Inclusion" are treated
+    #correctly
+    decision <- ifelse(grepl("incl", data$decision, ignore.case = TRUE) |
+                           grepl("yes", data$decision, ignore.case = TRUE) |
+                           grepl("maybe", data$decision, ignore.case = TRUE),
                        "include", "exclude")
 
     # add columns containing the ids of the papers and the belonging decisions
