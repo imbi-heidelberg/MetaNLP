@@ -5,6 +5,12 @@ test_that("constructor works", {
   obj2 <- MetaNLP(path, bounds = c(1, Inf))
   obj3 <- MetaNLP(path, bounds = c(3,6), word_length = c(4,8))
 
+  # special characters are encoded correctly and do not lead to NA entries
+  expect_equal(
+    nrow(obj@data_frame),
+    4
+  )
+
   # rows containing na values lead to warning
   path_na <- test_path("data", "test_data_na.csv")
   expect_warning(
