@@ -229,7 +229,8 @@ setMethod("plot", signature("MetaNLP", y = "missing"),
               (`[`)(-c(1, 2)) |>
               colSums() |>
               sort(decreasing = TRUE) |>
-              (`[`)(1:n) -> total
+              (`[`)(1:n) |>
+              rev() -> total
 
             # create bar plot
             barplot(total,
