@@ -1,7 +1,9 @@
+source_path <- test_path("data", "test_data_large.csv")
+obj <- MetaNLP(source_path)
+
 test_that("Summary works", {
 
-  source_path <- test_path("data", "test_data_large.csv")
-  obj <- MetaNLP(source_path)
+
   summ <- summary(obj)
 
   # test 1: summary returns list
@@ -50,6 +52,87 @@ test_that("Summary works", {
           colnames(summ2$Include)[c(1, 2)] == c("the", "and")))
   )
 
+
+
+})
+
+
+test_that("wordcloud method works", {
+  # normal plot without stratification
+  plt <- function() {
+    old <- .Random.seed
+    set.seed(42)
+    on.exit( {.Random.seed <<- old})
+    wordcloud(obj)
+  }
+  vdiffr::expect_doppelganger(
+    "wordcloud",
+    plt()
+  )
+
+  # filter by exclude
+  plt_exclude <- function() {
+    old <- .Random.seed
+    set.seed(42)
+    on.exit( {.Random.seed <<- old})
+    wordcloud(obj, decision = "exclude")
+  }
+  vdiffr::expect_doppelganger(
+    "wordcloud_exclude",
+    plt_exclude()
+  )
+
+  # filter by include
+  plt_include <- function() {
+    old <- .Random.seed
+    set.seed(42)
+    on.exit( {.Random.seed <<- old})
+    wordcloud(obj, decision = "include")
+  }
+  vdiffr::expect_doppelganger(
+    "wordcloud_include",
+    plt_include()
+  )
+
+  # if no decision column exists, plot should be like "no stratification"
+  obj_nodec <- obj
+  obj_nodec@data_frame$decision_ <- NULL
+  plt_nodec <- function() {
+    old <- .Random.seed
+    set.seed(42)
+    on.exit( {.Random.seed <<- old})
+    wordcloud(obj_nodec, decision = "include")
+  }
+  expect_warning(
+    vdiffr::expect_doppelganger(
+      "wordcloud",
+      plt_nodec()
+    ))
+
+
+  # inclusion of stopwords
+  plt_sw_T <- function() {
+    old <- .Random.seed
+    set.seed(42)
+    on.exit( {.Random.seed <<- old})
+    wordcloud(obj, stop_words = TRUE)
+  }
+  vdiffr::expect_doppelganger(
+    "wordcloud_sw_T",
+    plt_sw_T()
+  )
+
+  # exclusion of stopwords
+  plt_sw_F <- function() {
+    old <- .Random.seed
+    set.seed(42)
+    on.exit( {.Random.seed <<- old})
+    wordcloud(obj, stop_words = FALSE)
+  }
+  vdiffr::expect_doppelganger(
+    "wordcloud_sw_F",
+    plt_sw_T()
+  )
 
 
 })

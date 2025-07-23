@@ -2,14 +2,14 @@
 % Please edit documentation in R/MetaNLP.R
 \name{plot,MetaNLP,missing-method}
 \alias{plot,MetaNLP,missing-method}
-\title{Create word cloud from MetaNLP-object}
+\title{Create bar plot from MetaNLP-object}
 \usage{
 \S4method{plot}{MetaNLP,missing}(
   x,
   y = NULL,
-  max.words = 70,
-  colors = c("snow4", "darkgoldenrod1", "turquoise4", "tomato"),
+  n = 10,
   decision = c("total", "include", "exclude"),
+  stop_words = FALSE,
   ...
 )
 }
@@ -18,20 +18,22 @@
 
 \item{y}{not used}
 
-\item{max.words}{Maximum number of words in the word cloud}
+\item{n}{Number of bars}
 
-\item{colors}{Character vector with the colors in}
+\item{decision}{Stratify bar plot by decision. Default is no stratification.}
 
-\item{decision}{Stratify word cloud by decision. Default is no stratification.}
+\item{stop_words}{Boolean to decide whether stop words shall be included in
+the summary. \code{stop_words = TRUE} means, that stop words are included.}
 
-\item{...}{Additional parameters for \link[wordcloud]{wordcloud}}
+\item{...}{Additional parameters for \code{delete_stop_words} (e.g. language
+of the stop words).}
 }
 \value{
 nothing
 }
 \description{
-This method creates a word cloud from a MetaNLP object. The word size
-indicates the frequency of the words.
+This method creates a bar plot from a MetaNLP object, displaying the most
+common word stems.
 }
 \examples{
 path <- system.file("extdata", "test_data.csv", package = "MetaNLP", mustWork = TRUE)
