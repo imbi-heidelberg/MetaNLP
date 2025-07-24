@@ -35,6 +35,8 @@ setClass("MetaNLP", representation(data_frame = "data.frame"))
 #' languages are \code{english}, \code{french}, \code{german}, \code{russian} and
 #' \code{spanish}. For non-english languages make sure that the csv
 #' which is processed has the correct encoding.
+#' @param weighting A weighting function for the entries of the document-term matrix.
+#' Default is "frequency", other options are "binary" and "tf-idf".
 #' @param ... Additional arguments passed on to \code{read.csv2}, e.g. when
 #' "," should be used as a separator or when the encoding should be changed.
 #' See \link[utils]{read.table}.
@@ -70,6 +72,7 @@ MetaNLP <- function(file,
                     bounds      = c(2, Inf),
                     word_length = c(3, Inf),
                     language    = "english",
+                    weighting   = "frequency",
                     ...) {
   title <- NULL
   abstract <- NULL
@@ -83,6 +86,12 @@ MetaNLP <- function(file,
   } else {
     lexicon <- lexicon::hash_lemmas
   }
+
+  # match weighting function
+  weighting = match.arg(weighting, c("frequency", "binary", "tf-idf"))
+  fn <- switch(weighting, "frequency" = tm::weightTf,
+               "binary"    = tm::weightBin,
+               "tf-idf"    = tm::weightTfIdf)
 
   # load file
   if(is.character(file)) data <- utils::read.csv2(file, header = TRUE, ...)
@@ -129,9 +138,9 @@ MetaNLP <- function(file,
     # only use word stems
     tm::tm_map(tm::stemDocument, language = language) |>
     # create matrix
-    tm::TermDocumentMatrix(control = list(wordLengths = word_length)) |>
+    tm::DocumentTermMatrix(control = list(wordLengths = word_length,
+                                          weighting   = fn)) |>
     as.matrix() |>
-    t() |>
     as.data.frame() -> temp
   })
 
@@ -176,7 +185,7 @@ setMethod("show", signature("MetaNLP"),
 #' Create bar plot from MetaNLP-object
 #'
 #' This method creates a bar plot from a MetaNLP object, displaying the most
-#' common word stems.
+#' frequent word stems.
 #'
 #' @param x A MetaNLP object to plot
 #' @param y not used
@@ -191,6 +200,11 @@ setMethod("show", signature("MetaNLP"),
 #' path <- system.file("extdata", "test_data.csv", package = "MetaNLP", mustWork = TRUE)
 #' obj <- MetaNLP(path)
 #' plt <- plot(obj)
+#'
+#' @note
+#' Note that "most frequent" here refers to the entries
+#' of the document-term matrix. If "binary" or "tf-idf" weighting was chosen,
+#' the displayed values are in terms of the weighted entries.
 #'
 #' @return nothing
 #' @export
@@ -238,7 +252,7 @@ setMethod("plot", signature("MetaNLP", y = "missing"),
                     horiz = TRUE,
                     border = NA,
                     xlim = c(0, max(total) * 1.1),
-                    xlab = "Number of appearances",
+                    xlab = "(Weighted) Number of appearances",
                     main = "Most frequent words",
                     las = 2,
                     cex.names = min(0.7, 8 / length(total)),
