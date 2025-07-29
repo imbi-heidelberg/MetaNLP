@@ -139,7 +139,7 @@ test_that("plot method works", {
     plot(obj)
   }
   vdiffr::expect_doppelganger(
-    "wordcloud",
+    "barplot",
     plt()
   )
 
@@ -151,7 +151,7 @@ test_that("plot method works", {
     plot(obj, decision = "exclude")
   }
   vdiffr::expect_doppelganger(
-    "wordcloud_exclude",
+    "barplot_exclude",
     plt_exclude()
   )
 
@@ -163,7 +163,7 @@ test_that("plot method works", {
     plot(obj, decision = "include")
   }
   vdiffr::expect_doppelganger(
-    "wordcloud_include",
+    "barplot_include",
     plt_include()
   )
 
@@ -178,9 +178,45 @@ test_that("plot method works", {
   }
   expect_warning(
     vdiffr::expect_doppelganger(
-    "wordcloud",
+    "barplot",
     plt_nodec()
   ))
+
+  # inclusion of stopwords
+  plt_sw_T <- function() {
+    old <- .Random.seed
+    set.seed(42)
+    on.exit( {.Random.seed <<- old})
+    plot(obj, stop_words = TRUE)
+  }
+  vdiffr::expect_doppelganger(
+    "barplot_sw_T",
+    plt_sw_T()
+  )
+
+  # exclusion of stopwords
+  plt_sw_F <- function() {
+    old <- .Random.seed
+    set.seed(42)
+    on.exit( {.Random.seed <<- old})
+    plot(obj, stop_words = FALSE)
+  }
+  vdiffr::expect_doppelganger(
+    "barplot_sw_F",
+    plt_sw_T()
+  )
+
+  # number of words
+  plt_n <- function() {
+    old <- .Random.seed
+    set.seed(42)
+    on.exit( {.Random.seed <<- old})
+    plot(obj, n = 5)
+  }
+  vdiffr::expect_doppelganger(
+    "barplot_n",
+    plt_sw_T()
+  )
 
 
 })

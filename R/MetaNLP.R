@@ -173,17 +173,19 @@ setMethod("show", signature("MetaNLP"),
           })
 
 
-#' Create word cloud from MetaNLP-object
+#' Create bar plot from MetaNLP-object
 #'
-#' This method creates a word cloud from a MetaNLP object. The word size
-#' indicates the frequency of the words.
+#' This method creates a bar plot from a MetaNLP object, displaying the most
+#' common word stems.
 #'
 #' @param x A MetaNLP object to plot
 #' @param y not used
-#' @param max.words Maximum number of words in the word cloud
-#' @param colors Character vector with the colors in
-#' @param decision Stratify word cloud by decision. Default is no stratification.
-#' @param ... Additional parameters for \link[wordcloud]{wordcloud}
+#' @param n Number of bars
+#' @param decision Stratify bar plot by decision. Default is no stratification.
+#' @param stop_words Boolean to decide whether stop words shall be included in
+#' the summary. \code{stop_words = TRUE} means, that stop words are included.
+#' @param ... Additional parameters for \code{delete_stop_words} (e.g. language
+#' of the stop words).
 #'
 #' @examples
 #' path <- system.file("extdata", "test_data.csv", package = "MetaNLP", mustWork = TRUE)
@@ -193,34 +195,55 @@ setMethod("show", signature("MetaNLP"),
 #' @return nothing
 #' @export
 setMethod("plot", signature("MetaNLP", y = "missing"),
-          function(x,  y = NULL, max.words = 70,
-                   colors = c("snow4", "darkgoldenrod1", "turquoise4", "tomato"),
+          function(x,  y = NULL, n = 10,
                    decision = c("total", "include", "exclude"),
+                   stop_words = FALSE,
                    ...) {
 
             decision_ <- NULL
+
+            # delete stop words
+            if(!stop_words) {
+              data <- delete_stop_words(x, ...)@data_frame
+            } else {
+              data <- x@data_frame
+            }
+
             dec <- match.arg(decision)
             # check whether decision column exists and filter data
             if(dec != "total") {
-              if(is.null(x@data_frame$decision_)) {
-                warning("Column decision_ does not exist. Word cloud is created by using the whole document-term matrix.")
-                data <- x@data_frame
+              if(is.null(data$decision_)) {
+                warning("Column decision_ does not exist. Bar plot is created
+                          by using the whole document-term matrix.")
               }
               else {
-                x@data_frame |>
-                subset(decision_ == dec) -> data
+                data <- data[data$decision_ == dec, ]
               }
             }
-            else data <- x@data_frame
+
             data$id_ <- NULL
             data$decision_ <- NULL
 
-            # create word cloud
-            words <- names(data)
-            freqs <- colSums(data)
+            # get n most frequent words
+            data |>
+              (`[`)(-c(1, 2)) |>
+              colSums() |>
+              sort(decreasing = TRUE) |>
+              (`[`)(1:n) |>
+              rev() -> total
 
-            wordcloud::wordcloud(words, freqs, max.words = max.words,
-                                random.order = FALSE,
-                                color = colors, ...)
+            # create bar plot
+            barplot(total,
+                    col = "#4A90E2",
+                    horiz = TRUE,
+                    border = NA,
+                    xlim = c(0, max(total) * 1.1),
+                    xlab = "Number of appearances",
+                    main = "Most frequent words",
+                    las = 2,
+                    cex.names = min(0.7, 8 / length(total)),
+                    cex.axis = 0.8)
 
           })
+
+
