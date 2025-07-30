@@ -26,7 +26,8 @@ setClass("MetaNLP", representation(data_frame = "data.frame"))
 #' @param bounds An integer vector of length 2. The first value specifies
 #' the minimum number of appearances of a word to become a column of the word
 #' count matrix, the second value specifies the maximum number.
-#' Defaults to \code{c(2, Inf)}.
+#' Defaults to \code{c(2, Inf)}. Note that the bounds are with respect to
+#' the potentially weighted entries of the matrix.
 #' @param word_length An integer vector of length 2. The first value specifies
 #' the minimum number of characters of a word to become a column of the word
 #' count matrix, the second value specifies the maximum number.
@@ -252,7 +253,7 @@ setMethod("plot", signature("MetaNLP", y = "missing"),
                     horiz = TRUE,
                     border = NA,
                     xlim = c(0, max(total) * 1.1),
-                    xlab = "(Weighted) Number of appearances",
+                    xlab = "Number of appearances",
                     main = "Most frequent words",
                     las = 2,
                     cex.names = min(0.7, 8 / length(total)),
