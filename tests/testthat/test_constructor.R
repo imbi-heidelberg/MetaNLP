@@ -188,11 +188,13 @@ test_that("plot method works", {
     on.exit( {.Random.seed <<- old})
     plot(obj_nodec, decision = "include")
   }
+
   expect_warning(
     vdiffr::expect_doppelganger(
     "barplot",
     plt_nodec()
   ))
+
 
   # inclusion of stopwords
   plt_sw_T <- function() {
@@ -215,7 +217,7 @@ test_that("plot method works", {
   }
   vdiffr::expect_doppelganger(
     "barplot_sw_F",
-    plt_sw_T()
+    plt_sw_F()
   )
 
   # number of words
@@ -229,7 +231,6 @@ test_that("plot method works", {
     "barplot_n",
     plt_sw_T()
   )
-
 
 })
 
