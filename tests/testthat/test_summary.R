@@ -52,6 +52,17 @@ test_that("Summary works", {
           colnames(summ2$Include)[c(1, 2)] == c("the", "and")))
   )
 
+  # test 6: when tf-idf weighting is used, the summary does not show relative frequencies
+
+  obj2 <- MetaNLP(source_path, bounds = c(0, Inf), weighting = "tf-idf")
+  summ3 <- summary(obj2)
+
+  expect_true(
+    all(c(rownames(summ3$Total) == "TF-IDF",
+          rownames(summ3$Include) == "TF-IDF",
+          rownames(summ3$Exclude) == "TF-IDF"))
+  )
+
 
 
 })

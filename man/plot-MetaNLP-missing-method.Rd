@@ -33,7 +33,12 @@ nothing
 }
 \description{
 This method creates a bar plot from a MetaNLP object, displaying the most
-common word stems.
+frequent word stems.
+}
+\note{
+Note that "most frequent" here refers to the entries
+of the document-term matrix. If "binary" or "tf-idf" weighting was chosen,
+the displayed values are in terms of the weighted entries.
 }
 \examples{
 path <- system.file("extdata", "test_data.csv", package = "MetaNLP", mustWork = TRUE)

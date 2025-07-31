@@ -24,6 +24,12 @@ A list of most frequent words.
 Returns a quick overview over the \eqn{n} most frequent word stems structured
 into included and excluded papers.
 }
+\note{
+Note that "most frequent" here refers to the entries
+of the document-term matrix. This function simply computes the sum of each
+column and if a different weighting function was chosen, the displayed values
+are in terms of the weighted entries.
+}
 \examples{
 path <- system.file("extdata", "test_data.csv", package = "MetaNLP", mustWork = TRUE)
 obj <- MetaNLP(path)
