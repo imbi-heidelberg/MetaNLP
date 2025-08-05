@@ -11,6 +11,7 @@ MetaNLP(
   bounds = c(2, Inf),
   word_length = c(3, Inf),
   language = "english",
+  weighting = "frequency",
   ...
 )
 }
@@ -21,7 +22,8 @@ abstracts}
 \item{bounds}{An integer vector of length 2. The first value specifies
 the minimum number of appearances of a word to become a column of the word
 count matrix, the second value specifies the maximum number.
-Defaults to \code{c(2, Inf)}.}
+Defaults to \code{c(2, Inf)}. Note that the bounds are with respect to
+the potentially weighted entries of the matrix.}
 
 \item{word_length}{An integer vector of length 2. The first value specifies
 the minimum number of characters of a word to become a column of the word
@@ -32,6 +34,9 @@ Defaults to \code{c(3, Inf)}.}
 languages are \code{english}, \code{french}, \code{german}, \code{russian} and
 \code{spanish}. For non-english languages make sure that the csv
 which is processed has the correct encoding.}
+
+\item{weighting}{A weighting function for the entries of the document-term matrix.
+Default is "frequency", other options are "binary" and "tf-idf".}
 
 \item{...}{Additional arguments passed on to \code{read.csv2}, e.g. when
 "," should be used as a separator or when the encoding should be changed.

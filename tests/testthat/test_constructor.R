@@ -53,6 +53,18 @@ test_that("constructor works", {
     max(nchar(names(obj3@data_frame[-(1:2)]))) <= 8
   )
 
+  # weighting is correct
+  obj4 <- MetaNLP(path, weighting = "binary")
+  obj5 <- MetaNLP(path, bounds = c(0, Inf), weighting = "tf-idf")
+
+  expect_equal(
+    max(obj4@data_frame[-c(1,2)]), 1
+  )
+
+  expect_true(
+    any(obj5@data_frame[-c(1,2)] %% 1 != 0)
+  )
+
   # exemplary row to test correct results
   expect_equal(
     obj@data_frame$paper,
@@ -176,11 +188,13 @@ test_that("plot method works", {
     on.exit( {.Random.seed <<- old})
     plot(obj_nodec, decision = "include")
   }
+
   expect_warning(
     vdiffr::expect_doppelganger(
     "barplot",
     plt_nodec()
   ))
+
 
   # inclusion of stopwords
   plt_sw_T <- function() {
@@ -203,7 +217,7 @@ test_that("plot method works", {
   }
   vdiffr::expect_doppelganger(
     "barplot_sw_F",
-    plt_sw_T()
+    plt_sw_F()
   )
 
   # number of words
@@ -217,7 +231,6 @@ test_that("plot method works", {
     "barplot_n",
     plt_sw_T()
   )
-
 
 })
 
