@@ -1653,15 +1653,15 @@ Meta Analysis</h1>
 <div id="summary" class="section level1">
 <h1>Summary</h1>
 <p>To facilitate the the time-consuming task of title-abstract screening
-task in the preparation of a systematic review, it is possible to
-partially automate this process using machine learning models. These
-models are often trained on the document-term matrix derived from the
-collection of titles and abstracts. In this paper, we present the R
-package <strong>MetaNLP</strong>, which allows the transfer of a CSV
-file containing titles and abstracts into a document-term matrix with
-just a few lines of code. Furthermore, it provides a variety of
-functions to modify this matrix according to user preferences and
-includes helpful summary and visualization features.</p>
+in the preparation of a systematic review, it is possible to partially
+automate this process using machine learning models. These models are
+often trained on the document-term matrix derived from the collection of
+titles and abstracts. In this paper, we present the R package
+<strong>MetaNLP</strong>, which allows the transfer of a CSV file
+containing titles and abstracts into a document-term matrix with just a
+few lines of code. Furthermore, it provides a variety of functions to
+modify this matrix according to user preferences and includes helpful
+summary and visualization features.</p>
 </div>
 <div id="statement-of-need" class="section level1">
 <h1>Statement of need</h1>
@@ -1679,9 +1679,9 @@ then classify the remaining publications, either alone or together with
 a second human reviewer.</p>
 <p>Next to pre-implemented, but non-flexible machine learning tools like
 Rayyan <span class="citation">(Ouzzani et al. 2016)</span> or fine-tuned
-large language models <span class="citation">(Dennstädt F 2024)</span>,
-one important approach takes the titles and abstracts of the
-publications, computes the document-term matrix and trains ML models
+large language models <span class="citation">(Dennstädt et al.
+2024)</span>, one important approach takes the titles and abstracts of
+the publications, computes the document-term matrix and trains ML models
 based on this matrix <span class="citation">(Lange et al. 2021; Kebede,
 Le Cornet, and Fortner 2023; Pilz et al. 2024)</span>. This approach
 allows the user the flexibility to exclude negligible words and to train
@@ -1726,13 +1726,14 @@ Hornik 2024)</span>.</p>
 <code>select_features</code> to apply elastic net regularization within
 the data processing workflow. Here, the R-package
 <strong>glmnet</strong> <span class="citation">(Friedman, Tibshirani,
-and Hastie 2010; Tay, Narasimhan, and Hastie 2023)</span> is used.</p>
+and Hastie 2010; Tay, Narasimhan, and Hastie 2023)</span> is
+applied.</p>
 </div>
 <div id="usage" class="section level1">
 <h1>Usage</h1>
-<p><strong><em>MetaNLP</em></strong> creates the document-term matrix
-from a CSV file containing all the abstracts and the “include/exclude”
-decision. It should have the following form:</p>
+<p><strong>MetaNLP</strong> creates the document-term matrix from a CSV
+file containing all the abstracts and the “include/exclude” decision. It
+should have the following form:</p>
 <p><img role="img" src="data:image/png;base64,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" /></p>
 <p>The creation of the document-term matrix is simple now.</p>
 <pre><code>library(MetaNLP)
@@ -1755,13 +1756,13 @@ matrix.</p>
 function <code>summary</code>. This method shows the most common words
 in total and stratified by “include” and “exclude”.</p>
 <pre><code>summary(dtm, n = 5, stop_words = TRUE)</code></pre>
-<p>As stop words do not provide any useful information, they can be
+<p>As stop words may not provide any useful information, they can be
 excluded from the summary by specifying
 <code>stop_words = FALSE</code>.</p>
 <p>One way to visualize a <code>MetaNLP</code> object is the
 <code>plot</code> function which creates a bar chart of the <span class="math inline">\(n\)</span> most common words. The argument
 <code>decision</code> specifies whether the most frequent words from
-“exclude” or “include”” should be included. The default is “total”,
+“exclude” or “include” should be included. The default is “total”,
 meaning that “exclude” and “include” are pooled.</p>
 <pre><code>plot(dtm, n = 10, decision = &quot;total&quot;, stop_words = FALSE)</code></pre>
 <p>Another way is the function <code>wordcloud</code>. It has almost
@@ -1787,8 +1788,8 @@ words to delete as arguments.</p>
 <pre><code>dtm_1se &lt;- select_features(dtm, alpha = 0.001, lambda = &quot;1se&quot;, seed = 42)
 dtm_min &lt;- select_features(dtm, alpha = 0.001, lambda = &quot;min&quot;, seed = 42)</code></pre>
 <p>The argument <code>alpha</code> denotes the elastic net mixing
-parameter and <code>lambda</code> is the parameter of the penalty. For
-further information, consult the function’s documentation.</p>
+parameter and <code>lambda</code> is the parameter of the penalty. More
+detailed information is provided in the function’s documentation.</p>
 </div>
 <div id="test-data" class="section level2">
 <h2>Test data</h2>
@@ -1799,8 +1800,8 @@ must have exactly the same features as the matrix of the training data.
 The function <code>read_test_data</code> takes a <code>MetaNLP</code>
 object and the path to the test data as arguments and assimilates its
 columns by removing columns which only appear in the test data and by
-adding columns as zero-columns which only exist in the training
-document-term matrix.</p>
+adding columns as zero-columns which only exist in the document-term
+matrix used for training.</p>
 <pre><code>test_dtm &lt;- MetaNLP(&quot;data/example_test.csv&quot;)
 test_read_dtm &lt;- read_test_data(dtm, &quot;data/example_test.csv&quot;)</code></pre>
 </div>
@@ -1824,24 +1825,22 @@ via the method <code>replace_special_characters</code>.</p>
 <h1 class="unnumbered">References</h1>
 <div id="refs" class="references csl-bib-body hanging-indent" entry-spacing="0">
 <div id="ref-SnowballC" class="csl-entry">
-Bouchet-Valat, Milan. 2023. <em>SnowballC: Snowball Stemmers Based on
-the c ’Libstemmer’ UTF-8 Library</em>. <a href="https://CRAN.R-project.org/package=SnowballC">https://CRAN.R-project.org/package=SnowballC</a>.
+Bouchet-Valat, M. 2023. <em>SnowballC: Snowball Stemmers Based on the c
+’Libstemmer’ UTF-8 Library</em>. <a href="https://CRAN.R-project.org/package=SnowballC">https://CRAN.R-project.org/package=SnowballC</a>.
 </div>
 <div id="ref-Dennstadt2024" class="csl-entry">
-Dennstädt F, Putora PM, Zink J. 2024. <span>“Title and Abstract
-Screening for Literature Reviews Using Large Language Models: An
-Exploratory Study in the Biomedical Domain.”</span> <em>Systematic
-Reviews</em> 13 (1): 158. <a href="https://doi.org/10.1186/s13643-024-02575-4">https://doi.org/10.1186/s13643-024-02575-4</a>.
+Dennstädt, F., J. Zink, P. M. Putora, J. Hastings, and N. Cihoric. 2024.
+<span>“Title and Abstract Screening for Literature Reviews Using Large
+Language Models: An Exploratory Study in the Biomedical Domain.”</span>
+<em>Systematic Reviews</em> 13 (1): 158. <a href="https://doi.org/10.1186/s13643-024-02575-4">https://doi.org/10.1186/s13643-024-02575-4</a>.
 </div>
 <div id="ref-tm" class="csl-entry">
-Feinerer, Ingo, and Kurt Hornik. 2024. <em>Tm: Text Mining Package</em>.
-<a href="https://CRAN.R-project.org/package=tm">https://CRAN.R-project.org/package=tm</a>.
+Feinerer, I., and K. Hornik. 2024. <em>Tm: Text Mining Package</em>. <a href="https://CRAN.R-project.org/package=tm">https://CRAN.R-project.org/package=tm</a>.
 </div>
 <div id="ref-glmnet1" class="csl-entry">
-Friedman, Jerome, Robert Tibshirani, and Trevor Hastie. 2010.
-<span>“Regularization Paths for Generalized Linear Models via Coordinate
-Descent.”</span> <em>Journal of Statistical Software</em> 33 (1): 1–22.
-<a href="https://doi.org/10.18637/jss.v033.i01">https://doi.org/10.18637/jss.v033.i01</a>.
+Friedman, J., R. Tibshirani, and T. Hastie. 2010. <span>“Regularization
+Paths for Generalized Linear Models via Coordinate Descent.”</span>
+<em>Journal of Statistical Software</em> 33 (1): 1–22. <a href="https://doi.org/10.18637/jss.v033.i01">https://doi.org/10.18637/jss.v033.i01</a>.
 </div>
 <div id="ref-Kebede2023" class="csl-entry">
 Kebede, M., C. Le Cornet, and R. Fortner. 2023. <span>“In-Depth
@@ -1859,26 +1858,24 @@ Ouzzani, M., H. Hammady, Z. Fedorowicz, and A. Elmagarmid. 2016.
 <span>“Rayyan — a Web and Mobile App for Systematic Reviews.”</span>
 <em>Systematic Reviews</em> 5 (210). <a href="https://doi.org/10.1186/s13643-016-0384-4">https://doi.org/10.1186/s13643-016-0384-4</a>.
 </div>
-<div id="ref-pilz2024semi" class="csl-entry">
-Pilz, Maximilian, Samuel Zimmermann, Juliane Friedrichs, Enrica
-Wördehoff, Ulrich Ronellenfitsch, Meinhard Kieser, and Johannes A Vey.
-2024. <span>“Semi-Automated Title-Abstract Screening Using Natural
-Language Processing and Machine Learning.”</span> <em>Systematic
-Reviews</em> 13 (1): 274.
+<div id="ref-Pilz2024" class="csl-entry">
+Pilz, M., S. Zimmermann, J. Friedrichs, E. Wördehoff, U. Ronellenfitsch,
+M. Kieser, and J. A. Vey. 2024. <span>“Semi-Automated Title-Abstract
+Screening Using Natural Language Processing and Machine
+Learning.”</span> <em>Systematic Reviews</em> 13 (1): 274. <a href="https://doi.org/10.1186/s13643-024-02688-w">https://doi.org/10.1186/s13643-024-02688-w</a>.
 </div>
 <div id="ref-Porter1980" class="csl-entry">
 Porter, M. 1980. <span>“An Algorithm for Suffix Stripping.”</span>
 <em>Program</em> 14 (3): 130–37. <a href="https://doi.org/10.1108/eb046814">https://doi.org/10.1108/eb046814</a>.
 </div>
 <div id="ref-textstem" class="csl-entry">
-Rinker, Tyler W. 2018. <em><span class="nocase">textstem</span>: Tools
-for Stemming and Lemmatizing Text</em>. Buffalo, New York. <a href="http://github.com/trinker/textstem">http://github.com/trinker/textstem</a>.
+Rinker, T. W. 2018. <em><span class="nocase">textstem</span>: Tools for
+Stemming and Lemmatizing Text</em>. Buffalo, New York. <a href="http://github.com/trinker/textstem">http://github.com/trinker/textstem</a>.
 </div>
 <div id="ref-glmnet2" class="csl-entry">
-Tay, J. Kenneth, Balasubramanian Narasimhan, and Trevor Hastie. 2023.
-<span>“Elastic Net Regularization Paths for All Generalized Linear
-Models.”</span> <em>Journal of Statistical Software</em> 106 (1): 1–31.
-<a href="https://doi.org/10.18637/jss.v106.i01">https://doi.org/10.18637/jss.v106.i01</a>.
+Tay, J. K., B. Narasimhan, and T. Hastie. 2023. <span>“Elastic Net
+Regularization Paths for All Generalized Linear Models.”</span>
+<em>Journal of Statistical Software</em> 106 (1): 1–31. <a href="https://doi.org/10.18637/jss.v106.i01">https://doi.org/10.18637/jss.v106.i01</a>.
 </div>
 </div>
 </div>

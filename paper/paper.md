@@ -9,21 +9,22 @@ date: "31 July 2025"
 output:
   html_document:
     df_print: paged
+  pdf_document: default
 authors:
 - name: Nico Bruder
   orcid: "0009-0004-9522-2075"
-  equal-contrib: yes
+  equal-contrib: true
   affiliation: 1
 - name: Samuel Zimmermann
   orcid: "0009-0000-4828-9294"
-  equal-contrib: yes
+  equal-contrib: true
   affiliation: 1
 - name: Johannes Vey
   orcid: "000-0002-2610-9667"
   affiliation: 1
 - name: Maximilian Pilz
   orcid: "000-0002-9685-1613"
-  corresponding: yes
+  corresponding: true
   affiliation: 2
 bibliography: paper.bib
 affiliations:
@@ -32,15 +33,15 @@ affiliations:
 - name: Department of Optimization, Fraunhofer Institute for Industrial Mathematics,
     Germany
   index: 2
-editor_options: 
-  markdown: 
+editor_options:
+  markdown:
     wrap: 80
 ---
 
 # Summary
 
 To facilitate the the time-consuming task of title-abstract screening
-task in the preparation of a systematic review, it is possible to partially automate
+in the preparation of a systematic review, it is possible to partially automate
 this process using machine learning models. These models are often trained on the
 document-term matrix derived from the collection of titles and abstracts. In this paper, we present
 the R package **MetaNLP**, which allows the transfer of a CSV file containing titles
@@ -65,7 +66,7 @@ together with a second human reviewer.
 Next to pre-implemented, but non-flexible machine learning tools like Rayyan [@Rayyan] 
 or fine-tuned large language models [@Dennstadt2024], one important approach takes 
 the titles and abstracts of the publications, computes the 
-document-term matrix and trains ML models based on this matrix [@Lange2021; @Kebede2023; @pilz2024semi].
+document-term matrix and trains ML models based on this matrix [@Lange2021; @Kebede2023; @Pilz2024].
 This approach allows the user the flexibility to exclude negligible
 words and to train different ML algorithms, making it easier to apply the best
 algorithm for the problem at hand.
@@ -104,11 +105,11 @@ The whole processing pipeline described above makes heavy use of the R-package *
 
 Additionally, **MetaNLP** offers the function `select_features` 
 to apply elastic net regularization within the data processing workflow. Here, the 
-R-package **glmnet** [@glmnet1; @glmnet2] is used.
+R-package **glmnet** [@glmnet1; @glmnet2] is applied.
 
 # Usage
 
-***MetaNLP*** creates the document-term matrix from a CSV file containing all
+**MetaNLP** creates the document-term matrix from a CSV file containing all
 the abstracts and the "include/exclude" decision. It should have the following form:
 
 ![](figures/CSV_screenshot.png)
@@ -140,14 +141,13 @@ This method shows the most common words in total and stratified by "include" and
 summary(dtm, n = 5, stop_words = TRUE)
 ```
 
-As stop words do not provide any useful information, they can be excluded from the
-summary by specifying `stop_words = FALSE`. 
+As stop words may not provide any useful information, they can be excluded from
+the summary by specifying `stop_words = FALSE`. 
 
 One way to visualize a `MetaNLP` object is the `plot` function which creates a bar 
 chart of the $n$ most common words. The argument `decision` specifies whether the 
-most frequent words from "exclude" or "include"" 
-should be included. The default is "total", meaning that "exclude" and "include"
-are pooled.
+most frequent words from "exclude" or "include" should be included.
+The default is "total", meaning that "exclude" and "include" are pooled.
 
 ```
 plot(dtm, n = 10, decision = "total", stop_words = FALSE)
@@ -186,7 +186,8 @@ dtm_min <- select_features(dtm, alpha = 0.001, lambda = "min", seed = 42)
 ```
 
 The argument `alpha` denotes the elastic net mixing parameter and `lambda` is the 
-parameter of the penalty. For further information, consult the function's documentation.
+parameter of the penalty. 
+More detailed information is provided in the function's documentation.
 
 ## Test data
 
@@ -196,7 +197,7 @@ the document-term matrix of the test data must have exactly the same features as
 of the training data. The function `read_test_data` takes a `MetaNLP` object and 
 the path to the test data as arguments and assimilates its columns by removing columns 
 which only appear in the test data and by adding columns as zero-columns which only exist in the 
-training document-term matrix.
+document-term matrix used for training.
  
 ```
 test_dtm <- MetaNLP("data/example_test.csv")
