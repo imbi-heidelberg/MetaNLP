@@ -5,7 +5,7 @@ tags:
 - Natural Language Processing
 - Meta Analysis
 - Machine Learning
-date: "31 July 2025"
+date: "27 August 2025"
 output:
   html_document:
     df_print: paged
@@ -49,9 +49,7 @@ preferences and includes helpful summary and visualization features.
 
 In the process of conducting a systematic review, title and abstract (TIAB) screening is especially time-consuming, as it is standard practice for at least two human reviewers to independently assess all identified citations and determine whether each should be included or excluded from the subsequent full-text screening. However, this task involves plain text reading and could 
 potentially be performed using natural language processing (NLP) and machine 
-learning (ML) methods to tackle the problem of classifying the records in 
-"include/exclude". A certain proportion of the citations to screen can be 
-classified by humans and used as training data to train a ML model.
+learning (ML) methods. A certain proportion of the citations to be screened can be classified by humans and used as training data to train a ML model.
 This ML model can then classify the remaining citations, either acting alone or
 alongside a second human reviewer.
 
@@ -64,10 +62,8 @@ words and to train different ML algorithms, making it easier to apply the best
 algorithm for the problem at hand.
 
 The R-package **MetaNLP** supports programmers that aim to employ
-this approach. It provides all necessary functionality to create and flexibly modify the document-term
-matrix from a CSV file that contains titles and abstracts.
-This allows the user to perform essential NLP tasks with minimal code and
-quickly start the training of ML algorithms.
+this approach. It provides all necessary functionality to create and flexibly modify the document-term matrix from a CSV file that contains titles and abstracts.
+Unlike most general-purpose NLP packages, **MetaNLP** is designed to be part of a pipeline to train ML models, and allows users to have text preprocessing, customizable feature construction and data visualization methods unified in a single package. 
 
 
 # Methodology
@@ -84,7 +80,7 @@ In the second step, each word is lemmatized. Here, we make use of the package **
 
 Following lemmatization, the words are subjected to stemming. The algorithm 
 conducting the stemming is called Porter's stemming algorithm [@Porter1980],
-implemented via the the R-package **SnowballC** [@SnowballC].
+implemented via the R-package **SnowballC** [@SnowballC].
 
 In the final step, the document-term matrix is created.
 For each lemmatized and stemmed word, the number of appearances in the title
@@ -103,7 +99,7 @@ the abstracts and the "include/exclude" decision. It should have the following f
 
 ![](figures/CSV_screenshot.png)
 
-The creation of the document-term matrix is simple now.
+The creation of the document-term matrix is simple now. 
 
 ```
 library(MetaNLP)
@@ -114,14 +110,7 @@ dtm <- MetaNLP("data/example.csv",
                language = "english")
 ```
 
-The argument `bounds` specifies how often a word must occur to become part of 
-the document-term matrix. The argument `word_length` determines the minimum and 
-maximum number of characters a word should have. The argument `weighting` is used to 
-specify the weighting function used for the creation of the document-term matrix. 
-The argument `language` is used to adapt the lemmatization and stemming algorithms
-with respect to the language of the titles and abstracts. 
-The resulting object `dtm` has a slot `data_frame` which contains the desired document-term
-matrix.
+The function `MetaNLP()` creates an object of type `MetaNLP` with a slot `data_frame`, which is the document-term matrix, and this object is then passed on to the other functions.
 
 ## Visualize `MetaNLP` objects
 
@@ -131,12 +120,7 @@ The function `summary` provides a comprehensive overview of the data, showing th
 summary(dtm, n = 5, stop_words = TRUE)
 ```
 
-As stop words may not provide any useful information, they can be excluded from
-the summary by specifying `stop_words = FALSE`. 
-
-One way to visualize a `MetaNLP` object is the `plot` function which creates a bar 
-chart of the $n$ most common words. The `decision` argument defines whether to 
-show the most frequent words from "include", "exclude"", or both (default: 'total')
+One way to visualize a `MetaNLP` object is the `plot` function, which creates a bar chart of the $n$ most common words.
 
 ```
 plot(dtm, n = 10, decision = "total", stop_words = FALSE)
@@ -150,8 +134,7 @@ A typical step to reduce the number of columns is the deletion of stop words.
 dtm_delete <- delete_stop_words(dtm)
 ```
 
-In general, words can be easily removed by the method `delete_words`,
-which takes a MetaNLP-object and a list of words as arguments.
+In general, an arbitrary list of words can be easily removed using the method `delete_words`.
 
 ```
 dtm_delete <- delete_words(dtm_delete, c("aim", "administer"))
@@ -166,9 +149,8 @@ offers the method `select_features`.
 dtm_1se <- select_features(dtm, alpha = 0.2, lambda = "1se", seed = 42)
 ```
 
-The argument `alpha` denotes the elastic net mixing parameter and `lambda` is the 
-parameter of the penalty. 
-More detailed information is provided in the function's documentation.
+The argument `alpha` denotes the elastic net mixing parameter and `lambda` is the parameter of the penalty. 
+
 
 ## Test data
 
@@ -176,7 +158,7 @@ Assume a ML model has been trained on the document-term matrix and will now be u
 the document-term matrix of the new (test) data must have exactly the same features as the matrix
 of the training data. The function `read_test_data` takes a `MetaNLP` object and 
 the path to the test data. It then assimilates its columns by removing columns 
-which only appear in the test data and by adding columns as zero-columns which only exist in the 
+that only appear in the test data and by adding columns as zero-columns that only exist in the 
 document-term matrix used for training.
  
 ```

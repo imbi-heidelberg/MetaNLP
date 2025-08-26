@@ -10,7 +10,7 @@
 
 
 
-<meta name="date" content="2025-07-31" />
+<meta name="date" content="2025-08-27" />
 
 <title>MetaNLP: Natural Language Processing for Meta Analysis</title>
 
@@ -1645,7 +1645,7 @@ display: none;
 
 <h1 class="title toc-ignore">MetaNLP: Natural Language Processing for
 Meta Analysis</h1>
-<h4 class="date">31 July 2025</h4>
+<h4 class="date">27 August 2025</h4>
 
 </div>
 
@@ -1653,9 +1653,9 @@ Meta Analysis</h1>
 <div id="summary" class="section level1">
 <h1>Summary</h1>
 <p>The time-consuming task of title-abstract screening in the
-preparation of a systematic review can be partially automate through the
-use of machine learning models. These models are often trained on the
-document-term matrix derived from the collection of titles and
+preparation of a systematic review can be partially automated through
+the use of machine learning models. These models are often trained on
+the document-term matrix derived from the collection of titles and
 abstracts. In this paper, we present the R package
 <strong>MetaNLP</strong>, which allows the transfer of a CSV file
 containing titles and abstracts into a document-term matrix with just a
@@ -1671,8 +1671,7 @@ practice for at least two human reviewers to independently assess all
 identified citations and determine whether each should be included or
 excluded from the subsequent full-text screening. However, this task
 involves plain text reading and could potentially be performed using
-natural language processing (NLP) and machine learning (ML) methods to
-tackle the problem of classifying the records in “include/exclude”. A
+natural language processing (NLP) and machine learning (ML) methods. A
 certain proportion of the citations to screen can be classified by
 humans and used as training data to train a ML model. This ML model can
 then classify the remaining citations, either acting alone or alongside
@@ -1689,9 +1688,11 @@ algorithm for the problem at hand.</p>
 <p>The R-package <strong>MetaNLP</strong> supports programmers that aim
 to employ this approach. It provides all necessary functionality to
 create and flexibly modify the document-term matrix from a CSV file that
-contains titles and abstracts. This allows the user to perform essential
-NLP tasks with minimal code and quickly start the training of ML
-algorithms.</p>
+contains titles and abstracts. Unlike most general-purpose NLP packages,
+<strong>MetaNLP</strong> is designed to be part of a pipeline to train
+ML models, and allows users to have text preprocessing, customizable
+feature construction and data visualization unified in a single
+package.</p>
 </div>
 <div id="methodology" class="section level1">
 <h1>Methodology</h1>
@@ -1740,28 +1741,18 @@ dtm &lt;- MetaNLP(&quot;data/example.csv&quot;,
                word_length = c(3, Inf),
                weighting = &quot;frequency&quot;,
                language = &quot;english&quot;)</code></pre>
-<p>The argument <code>bounds</code> specifies how often a word must
-occur to become part of the document-term matrix. The argument
-<code>word_length</code> determines the minimum and maximum number of
-characters a word should have. The argument <code>weighting</code> is
-used to specify the weighting function used for the creation of the
-document-term matrix. The argument <code>language</code> is used to a
-adapt the lemmatization and stemming algorithms. The resulting object
-<code>dtm</code> has a slot <code>data_frame</code> which contains the
-desired document-term matrix.</p>
+<p>The function <code>MetaNLP()</code> creates an object of type
+<code>MetaNLP</code> with a slot <code>data_frame</code>, which is the
+document-term matrix, and this object is then passed on to the other
+functions.</p>
 <div id="visualize-metanlp-objects" class="section level2">
 <h2>Visualize <code>MetaNLP</code> objects</h2>
 <p>The function <code>summary</code> provides a comprehensive overview
 of the data, showing the most common words in total and stratified by
 “include” and “exclude”.</p>
 <pre><code>summary(dtm, n = 5, stop_words = TRUE)</code></pre>
-<p>As stop words may not provide any useful information, they can be
-excluded from the summary by specifying
-<code>stop_words = FALSE</code>.</p>
 <p>One way to visualize a <code>MetaNLP</code> object is the
-<code>plot</code> function which creates a bar chart of the <span class="math inline">\(n\)</span> most common words. The
-<code>decision</code> argument defines whether to show the most frequent
-words from “include”, “exclude”“, or both (default: ‘total’)</p>
+<code>plot</code> function which creates a bar chart of the <span class="math inline">\(n\)</span> most common words.</p>
 <pre><code>plot(dtm, n = 10, decision = &quot;total&quot;, stop_words = FALSE)</code></pre>
 </div>
 <div id="delete-words" class="section level2">
@@ -1769,9 +1760,8 @@ words from “include”, “exclude”“, or both (default: ‘total’)</p>
 <p>A typical step to reduce the number of columns is the deletion of
 stop words.</p>
 <pre><code>dtm_delete &lt;- delete_stop_words(dtm)</code></pre>
-<p>In general, words can be easily removed by the method
-<code>delete_words</code>, which takes a MetaNLP-object and a list of
-words as arguments.</p>
+<p>In general, an arbitrary list of words can be easily removed by the
+method <code>delete_words</code>.</p>
 <pre><code>dtm_delete &lt;- delete_words(dtm_delete, c(&quot;aim&quot;, &quot;administer&quot;))</code></pre>
 </div>
 <div id="dimension-reduction" class="section level2">
@@ -1779,11 +1769,9 @@ words as arguments.</p>
 <p>In order to further reduce the dimensionality of the feature space,
 <strong>MetaNLP</strong> offers the method
 <code>select_features</code>.</p>
-<pre><code>dtm_1se &lt;- select_features(dtm, alpha = 0.2, lambda = &quot;1se&quot;, seed = 42)
-dtm_min &lt;- select_features(dtm, alpha = 0.2, lambda = &quot;min&quot;, seed = 42)</code></pre>
+<pre><code>dtm_1se &lt;- select_features(dtm, alpha = 0.2, lambda = &quot;1se&quot;, seed = 42)</code></pre>
 <p>The argument <code>alpha</code> denotes the elastic net mixing
-parameter and <code>lambda</code> is the parameter of the penalty. More
-detailed information is provided in the function’s documentation.</p>
+parameter and <code>lambda</code> is the parameter of the penalty.</p>
 </div>
 <div id="test-data" class="section level2">
 <h2>Test data</h2>
