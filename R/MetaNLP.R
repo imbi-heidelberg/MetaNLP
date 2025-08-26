@@ -26,7 +26,8 @@ setClass("MetaNLP", representation(data_frame = "data.frame"))
 #' @param bounds An integer vector of length 2. The first value specifies
 #' the minimum number of appearances of a word to become a column of the word
 #' count matrix, the second value specifies the maximum number.
-#' Defaults to \code{c(2, Inf)}.
+#' Defaults to \code{c(2, Inf)}. Note that the bounds are with respect to
+#' the potentially weighted entries of the matrix.
 #' @param word_length An integer vector of length 2. The first value specifies
 #' the minimum number of characters of a word to become a column of the word
 #' count matrix, the second value specifies the maximum number.
@@ -207,6 +208,9 @@ setMethod("show", signature("MetaNLP"),
 #' the displayed values are in terms of the weighted entries.
 #'
 #' @return nothing
+#'
+#' @importFrom graphics barplot
+#'
 #' @export
 setMethod("plot", signature("MetaNLP", y = "missing"),
           function(x,  y = NULL, n = 10,
@@ -247,17 +251,16 @@ setMethod("plot", signature("MetaNLP", y = "missing"),
               rev() -> total
 
             # create bar plot
-            barplot(total,
-                    col = "#4A90E2",
-                    horiz = TRUE,
-                    border = NA,
-                    xlim = c(0, max(total) * 1.1),
-                    xlab = "(Weighted) Number of appearances",
-                    main = "Most frequent words",
-                    las = 2,
-                    cex.names = min(0.7, 8 / length(total)),
-                    cex.axis = 0.8)
-
+            graphics::barplot(total,
+                              col = "#4A90E2",
+                              horiz = TRUE,
+                              border = NA,
+                              xlim = c(0, max(total) * 1.1),
+                              xlab = "Number of appearances",
+                              main = "Most frequent words",
+                              las = 2,
+                              cex.names = min(0.7, 8 / length(total)),
+                              cex.axis = 0.8)
           })
 
 
