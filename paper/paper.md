@@ -19,10 +19,10 @@ authors:
   orcid: "0009-0000-4828-9294"
   affiliation: 1
 - name: Johannes Vey
-  orcid: "000-0002-2610-9667"
+  orcid: "0000-0002-2610-9667"
   affiliation: 1
 - name: Maximilian Pilz
-  orcid: "000-0002-9685-1613"
+  orcid: "0000-0002-9685-1613"
   affiliation: 2
 bibliography: paper.bib
 affiliations:
