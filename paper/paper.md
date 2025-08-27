@@ -165,4 +165,8 @@ document-term matrix used for training.
 test_dtm <- read_test_data(dtm, "data/example_test.csv")
 ```
 
+# Acknowledgements
+
+The authors have not received any funding for this work.
+
 # References

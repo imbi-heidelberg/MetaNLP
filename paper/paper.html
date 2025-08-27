@@ -1672,7 +1672,7 @@ identified citations and determine whether each should be included or
 excluded from the subsequent full-text screening. However, this task
 involves plain text reading and could potentially be performed using
 natural language processing (NLP) and machine learning (ML) methods. A
-certain proportion of the citations to screen can be classified by
+certain proportion of the citations to be screened can be classified by
 humans and used as training data to train a ML model. This ML model can
 then classify the remaining citations, either acting alone or alongside
 a second human reviewer.</p>
@@ -1691,7 +1691,7 @@ create and flexibly modify the document-term matrix from a CSV file that
 contains titles and abstracts. Unlike most general-purpose NLP packages,
 <strong>MetaNLP</strong> is designed to be part of a pipeline to train
 ML models, and allows users to have text preprocessing, customizable
-feature construction and data visualization unified in a single
+feature construction and data visualization methods unified in a single
 package.</p>
 </div>
 <div id="methodology" class="section level1">
@@ -1712,7 +1712,7 @@ package <strong>textstem</strong> <span class="citation">(Rinker
 2018)</span>.</p>
 <p>Following lemmatization, the words are subjected to stemming. The
 algorithm conducting the stemming is called Porter’s stemming algorithm
-<span class="citation">(Porter 1980)</span>, implemented via the the
+<span class="citation">(Porter 1980)</span>, implemented via the
 R-package <strong>SnowballC</strong> <span class="citation">(Bouchet-Valat 2023)</span>.</p>
 <p>In the final step, the document-term matrix is created. For each
 lemmatized and stemmed word, the number of appearances in the title and
@@ -1752,7 +1752,7 @@ of the data, showing the most common words in total and stratified by
 “include” and “exclude”.</p>
 <pre><code>summary(dtm, n = 5, stop_words = TRUE)</code></pre>
 <p>One way to visualize a <code>MetaNLP</code> object is the
-<code>plot</code> function which creates a bar chart of the <span class="math inline">\(n\)</span> most common words.</p>
+<code>plot</code> function, which creates a bar chart of the <span class="math inline">\(n\)</span> most common words.</p>
 <pre><code>plot(dtm, n = 10, decision = &quot;total&quot;, stop_words = FALSE)</code></pre>
 </div>
 <div id="delete-words" class="section level2">
@@ -1760,8 +1760,8 @@ of the data, showing the most common words in total and stratified by
 <p>A typical step to reduce the number of columns is the deletion of
 stop words.</p>
 <pre><code>dtm_delete &lt;- delete_stop_words(dtm)</code></pre>
-<p>In general, an arbitrary list of words can be easily removed by the
-method <code>delete_words</code>.</p>
+<p>In general, an arbitrary list of words can be easily removed using
+the method <code>delete_words</code>.</p>
 <pre><code>dtm_delete &lt;- delete_words(dtm_delete, c(&quot;aim&quot;, &quot;administer&quot;))</code></pre>
 </div>
 <div id="dimension-reduction" class="section level2">
@@ -1781,11 +1781,15 @@ document-term matrix of the new (test) data must have exactly the same
 features as the matrix of the training data. The function
 <code>read_test_data</code> takes a <code>MetaNLP</code> object and the
 path to the test data. It then assimilates its columns by removing
-columns which only appear in the test data and by adding columns as
-zero-columns which only exist in the document-term matrix used for
+columns that only appear in the test data and by adding columns as
+zero-columns that only exist in the document-term matrix used for
 training.</p>
 <pre><code>test_dtm &lt;- read_test_data(dtm, &quot;data/example_test.csv&quot;)</code></pre>
 </div>
+</div>
+<div id="acknowledgements" class="section level1">
+<h1>Acknowledgements</h1>
+<p>The authors have not received any funding for this work.</p>
 </div>
 <div id="references" class="section level1 unnumbered">
 <h1 class="unnumbered">References</h1>
